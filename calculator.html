@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+        <title>Calculator | Page Zero</title>
+    
+        <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/calculator.css">
+    </head>
+
+    <body>
+        <div id="top-row" class="flex-split-row glass-container">
+            <div id="top-title-container" class="flex-centered-row">
+                <p id="top-title">P<sub>0</sub></p>
+                <h3 id="top-tool-title">Calculator</h3>
+            </div>
+            <div id="top-buttons-container" class="flex-centered-row">
+                <a href="datamanager.html" id="data-manager-button" class="hover-label" data-label="Data Manager" data-position="bottom"><img src="assets/images/database-config.svg" alt="Data Manager" class="top-icon" draggable="false"></a>
+            </div>
+        </div>
+
+        <div id="main-container" class="onload-wrapper">
+            <div id="left-nav" class="flex-column glass-container">
+                <div class="nav-item centered-div hover-label" data-label="Home" data-position="right">
+                    <a href="index.html"><img src="assets/images/home.svg" alt="Home" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Web Chest" data-position="right">
+                    <a href="webchest.html"><img src="assets/images/chest.svg" alt="Web Chest" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="To-do" data-position="right">
+                    <a href="todo.html"><img src="assets/images/todo.webp" alt="To-do" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Focus Timer" data-position="right">
+                    <a href="timer.html"><img src="assets/images/timer.svg" alt="Focus Timer" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label nav-active" data-label="Calculator" data-position="right">
+                    <a href="calculator.html"><img src="assets/images/calculator.svg" alt="Calculator" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                </div>
+                <div class="nav-item centered-div nav-tray-container hover-label" data-label="More Tools" data-position="bottom">
+                    <img src="assets/images/applib.webp" alt="More Tools" class="nav-icon" draggable="false" style="width: 36px;">
+                    <div class="nav-tray glass-container glass-bg flex-centered-row">
+                        <div class="nav-item centered-div hover-label" data-label="Gradebook" data-position="top">
+                            <a href="gradebook.html"><img src="assets/images/gradebook.svg" alt="Gradebook" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Trending Media" data-position="top">
+                            <a href="trending.html"><img src="assets/images/trending.svg" alt="Trending Media" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="RSS Feeds" data-position="top">
+                            <a href="rss.html"><img src="assets/images/rss.svg" alt="RSS Feeds" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Photos Viewer" data-position="top">
+                            <a href="photos.html"><img src="assets/images/photos.svg" alt="Photos Viewer" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="World Globe" data-position="top">
+                            <a href="worldglobe.html"><img src="assets/images/world-globe.svg" alt="World Globe" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="main-content" class="flex-column">
+                <div id="calculator-content" class="flex-split-row flex-start-section">
+                    <div id="calculator-main-container">
+                        <div id="calculator-display-container">
+                            <p id="calculator-display-prev"></p>
+                            <div id="calculator-display-curr" class="thin-horizontal-scrollbar"><span id="calculator-input-startpos"></span><span>0</span></div>
+                        </div>
+                        <table id="calculator-button-container">
+                            <tr>
+                                <td class="calculator-button" id="calculator-2nd" data-label="secondary functions (tab)" data-label-extended="Toggle between primary and secondary set of function keys">2nd</td>
+                                <td colspan="2" class="calculator-button-wide" id="calculator-raddeg" data-label="radians/degrees" data-label-extended="Toggle between using radian or degree angle arguments in trigonometric functions"><div class="centered-div"><div class="calculator-button-toggle flex-split-row" id="calculator-raddeg-selected-container"><div id="calculator-raddeg-selected"></div><span>Rad</span><div class="vertical-divider"></div><span>Deg</span></div></div></td>
+                                <td class="calculator-button calculator-has-2nd" id="calculator-left" data-label="cursor left (&larr;)&#10;cursor start (&uarr;)" data-label-extended="&larr;: Move the cursor one character to the left&#10;&uarr;: Move the cursor to the start of the input">
+                                    <svg style="display: inline-block;" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"></path>
+                                    </svg>
+                                    <svg style="display: none;" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"></path>
+                                    </svg>
+                                </td>
+                                <td class="calculator-button calculator-has-2nd" id="calculator-right" data-label="cursor right (&rarr;)&#10;cursor end (&darr;)" data-label-extended="&rarr;: Move the cursor one character to the right&#10;&darr;: Move the cursor to the end of the input">
+                                    <svg style="display: inline-block;" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"></path>
+                                    </svg>
+                                    <svg style="display: none;" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"></path>
+                                    </svg>
+                                </td>
+                                <td class="calculator-button" id="calculator-del" data-label="backspace (delete)" data-label-extended="Delete the character at the cursor's position"><img src="assets/images/backspace.svg" draggable="false"></td>
+                            </tr>
+                            <tr>
+                                <td class="calculator-button" id="calculator-math" data-label="math functions" data-label-extended="Various math functions, including equation solving, differentiation, integration">
+                                    <span>math</span>
+                                    <div id="calculator-math-menu" class="calculator-menu glass-container glass-bg flex-column" style="display: none;">
+                                        <p id="calculator-eqn-solve" class="calculator-menu-button dimensional-button">Equation solver</p>
+                                        <p id="calculator-derivative" class="calculator-menu-button dimensional-button">Derivative</p>
+                                        <p class="calculator-menu-button dimensional-button">Integral</p>
+                                    </div>
+                                </td>
+                                <td class="calculator-button">stats</td>
+                                <td class="calculator-button">plot</td>
+                                <td class="calculator-button" data-label="left parenthesis" data-label-extended="Insert left parenthesis to prioritize contained operation">(</td>
+                                <td class="calculator-button" data-label="right parenthesis" data-label-extended="Insert right parenthesis to prioritize contained operation">)</td>
+                                <td class="calculator-button" id="calculator-clr" data-label="clear input (shift+delete)" data-label-extended="Clear the entire input"><img src="assets/images/eraser.svg" draggable="false"></td>
+                            </tr>
+                            <tr>
+                                <td class="calculator-button" data-label="natural logarithm (l)" data-label-extended="Gets the natural logarithm (base e) of the argument">ln</td>
+                                <td class="calculator-button calculator-has-2nd" data-label="common logarithm" data-label-extended="Gets the common logarithm (base 10) of the argument" data-label-second="logarithm" data-label-extended-second="Gets the logarithm of the argument with an arbitrary base">
+                                    <span style="display: inline-block;">log</span>
+                                    <span style="display: none;">log<sub>&square;</sub></span>
+                                </td>
+                                <td class="calculator-button calculator-has-2nd" data-label="sine (s)" data-label-extended="Gets the sine of the argument" data-label-second="inverse sine (s)" data-label-extended-second="Gets the inverse sine (arcsine) of the argument">
+                                    <span style="display: inline-block;">sin</span>
+                                    <span style="display: none;">sin<sup>-1</sup></span>
+                                </td>
+                                <td class="calculator-button calculator-has-2nd" data-label="cosine (c)" data-label-extended="Gets the cosine of the argument" data-label-second="inverse cosine (c)" data-label-extended-second="Gets the inverse cosine (arccosine) of the argument">
+                                    <span style="display: inline-block;">cos</span>
+                                    <span style="display: none;">cos<sup>-1</sup></span>
+                                </td>
+                                <td class="calculator-button calculator-has-2nd" data-label="tangent (t)" data-label-extended="Gets the tangent of the argument" data-label-second="inverse tangent (t)" data-label-extended-second="Gets the inverse tangent (arctangent) of the argument">
+                                    <span style="display: inline-block;">tan</span>
+                                    <span style="display: none;">tan<sup>-1</sup></span>
+                                </td>
+                                <td class="calculator-button calculator-ops" data-label="divide (/)">÷</td>
+                            </tr>
+                            <tr>
+                                <td class="calculator-button" id="calculator-e-exp" data-label="base e exponent" data-label-extended="Raises e to the power of the argument">e<sup>&square;</sup></td>
+                                <td class="calculator-button" id="calculator-10-exp" data-label="base 10 exponent" data-label-extended="Raises 10 to the power of the argument">10<sup>&square;</sup></td>
+                                <td class="calculator-button calculator-has-2nd" data-label="hyperbolic sine" data-label-extended="Gets the hyperbolic sine of the argument" data-label-second="inverse hyperbolic sine" data-label-extended-second="Gets the inverse hyperbolic sine (arcsinh) of the argument">
+                                    <span style="display: inline-block;">sinh</span>
+                                    <span style="display: none;">sinh<sup>-1</sup></span>
+                                </td>
+                                <td class="calculator-button calculator-has-2nd" data-label="hyperbolic cosine" data-label-extended="Gets the hyperbolic cosine of the argument" data-label-second="inverse hyperbolic cosine" data-label-extended-second="Gets the inverse hyperbolic cosine (arccosh) of the argument">
+                                    <span style="display: inline-block;">cosh</span>
+                                    <span style="display: none;">cosh<sup>-1</sup></span>
+                                </td>
+                                <td class="calculator-button calculator-has-2nd" data-label="hyperbolic tangent" data-label-extended="Gets the hyperbolic tangent of the argument" data-label-second="inverse hyperbolic tangent" data-label-extended-second="Gets the inverse hyperbolic tangent (arctanh) of the argument">
+                                    <span style="display: inline-block;">tanh</span>
+                                    <span style="display: none;">tanh<sup>-1</sup></span>
+                                </td>
+                                <td class="calculator-button calculator-ops" data-label="multiply (*)">×</td>
+                            </tr>
+                            <tr>
+                                <td class="calculator-button" id="calculator-exponent" data-label="exponent (^)" data-label-extended="Raises the an arbitrary base to an arbitrary power">x<sup>&square;</sup></td>
+                                <td class="calculator-button" data-label="scientific notation (E)" data-label-extended="Insert a scientific notation shorthand, equivalent to ×10^">EE</td>
+                                <td class="calculator-button calculator-num">7</td>
+                                <td class="calculator-button calculator-num">8</td>
+                                <td class="calculator-button calculator-num">9</td>
+                                <td class="calculator-button calculator-ops" data-label="subtract (-)">-</td>
+                            </tr>
+                            <tr>
+                                <td class="calculator-button" id="calculator-sqrt" data-label="square root (⌥+V)" data-label-extended="Calculates the square root of the argument">√</td>
+                                <td class="calculator-button" id="calculator-nrt" data-label="n-th root" data-label-extended="Calculates the n-th root of the argument"><sup>&square;</sup>√</td>
+                                <td class="calculator-button calculator-num">4</td>
+                                <td class="calculator-button calculator-num">5</td>
+                                <td class="calculator-button calculator-num">6</td>
+                                <td class="calculator-button calculator-ops" data-label="add (+)">+</td>
+                            </tr>
+                            <tr>
+                                <td class="calculator-button" data-label="pi (p)&#10;imaginary unit (i)&#10;Euler's number (e)">π/i/e</td>
+                                <td class="calculator-button">sto &rightarrow;</td>
+                                <td class="calculator-button calculator-num">1</td>
+                                <td class="calculator-button calculator-num">2</td>
+                                <td class="calculator-button calculator-num">3</td>
+                                <td class="calculator-button" id="calculator-convert" data-label="convert result format (shift+enter)" data-label-extended="Converts the calculated result between exact, decimal, and scientific notation formats"><img src="assets/images/convert.svg" draggable="false"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="calculator-button-wide calculator-has-2nd" id="calculator-units-basen" data-label="unit converter" data-label-extended="Click to enable unit converter&#10;Use the dropdowns to set the units">
+                                    <span style="display: inline-block;"><div class="flex-centered-row" id="calculator-units"><span>units</span><select id="calculator-units-from" style="display: none;"></select><span style="display: none;">to</span><select id="calculator-units-to" style="display: none;"></select></div></span>
+                                    <span style="display: none;">base n</span>
+                                </td>
+                                <td class="calculator-button calculator-num calculator-has-2nd">
+                                    <span style="display: inline-block;">ans</span>
+                                    <span style="display: none;">rand</span>
+                                </td>
+                                <td class="calculator-button calculator-num">0</td>
+                                <td class="calculator-button calculator-num">.</td>
+                                <td class="calculator-button" id="calculator-equal" data-label="compute (enter)">=</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div id="calculator-right-container" class="flex-column">
+                        <div id="calculator-recent-container" class="right-panel-section flex-column glass-container">
+                            <div id="calculator-recent-dropdown" class="right-panel-row flex-centered-row">
+                                <h3 class="right-panel-header">Recents</h3>
+                            </div>
+                            <div id="calculator-recent-content" style="display: none;">
+                                <div class="right-panel-row flex-centered-row">
+                                    <input type="text" placeholder="Search recents" id="calculator-recent-search" class="right-panel-input">
+                                    <div id="calculator-recent-clear"></div>
+                                </div>
+                                <hr class="horizontal-divider">
+                                <div id="calculator-recent-items" class="flex-column"></div>
+                            </div>
+                        </div>
+
+                        <div class="right-panel-section flex-column glass-container">
+                            <div id="calculator-variables-dropdown" class="right-panel-row flex-centered-row">
+                                <h3 class="right-panel-header">Variables</h3>
+                            </div>
+                            <div id="calculator-variables-content" style="display: none;">
+                                <p id="calculator-variables-clear" class="danger-button">Clear variables</p>
+                                <hr class="horizontal-divider">
+                                <div id="calculator-variables-items" class="flex-column"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="scripts/helpers/genelem.js"></script>
+        <script src="scripts/helpers/gensvg.js"></script>
+        <script src="scripts/helpers/database.js"></script>
+        <script src="scripts/helpers/cookie.js"></script>
+        <script src="scripts/helpers/math/math-helpers.js"></script>
+        <script src="scripts/helpers/math/nerdamer.core.js"></script>
+        <script src="scripts/helpers/math/nerdamer.algebra.js"></script>
+        <script src="scripts/helpers/math/nerdamer.calculus.js"></script>
+        <script src="scripts/helpers/math/nerdamer.solve.js"></script>
+        <script src="scripts/calculator.js"></script>
+
+        <script>
+            window.onload = () => {
+                initCalculator();
+                checkTimerBreak(null, true);
+                checkDbBackup("button");
+            }
+        </script>
+    </body>
+</html>

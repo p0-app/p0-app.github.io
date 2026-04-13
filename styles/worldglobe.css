@@ -1,0 +1,164 @@
+#globe-content {
+    width: 90%;
+    column-gap: 40px;
+}
+
+#globe-container {
+    position: relative;
+}
+
+#globe-lock-indicator, #globe-settings-container {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+}
+
+#globe-lock-indicator {
+    left: 10px;
+}
+
+#globe-settings-container {
+    right: 10px;
+}
+
+.globe-setting-row {
+    column-gap: 5px;
+}
+
+#globe-right-container {
+    row-gap: 25px;
+    margin-top: 20px;
+    flex-grow: 1;
+}
+
+#globe-right-panel-select {
+    border: 2px solid rgb(55, 70, 79);
+    border-radius: 18px;
+}
+
+.right-panel-header {
+    padding: 0 10px;
+    border-radius: 16px;
+}
+
+.globe-right-panel-selected {
+    background-color: rgba(28, 176, 246, 0.4);
+}
+
+#globe-inspector-content {
+    row-gap: 15px;
+}
+
+#globe-search-row {
+    column-gap: 8px;
+    position: relative;
+}
+
+.globe-search-button {
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    border-bottom-width: 2px;
+}
+
+.globe-search-button:hover {
+    margin-top: 1px;
+}
+
+#globe-search-results-container {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 30vh;
+    overflow-y: auto;
+    z-index: 5;
+    row-gap: 5px;
+    padding: 8px 15px;
+}
+
+.globe-search-result {
+    font-size: 17px;
+}
+
+#globe-inspector-empty {
+    column-gap: 5px;
+}
+
+#globe-inspector-pinned-container {
+    row-gap: 5px;
+}
+
+.globe-inspector-pinned-group {
+    row-gap: 2px;
+}
+
+#globe-inspector-title {
+    font-size: 20px;
+}
+
+#globe-inspector-info {
+    row-gap: 8px;
+    max-height: 45vh;
+    overflow-y: auto;
+}
+
+#globe-inspector-buttons {
+    column-gap: 10px;
+}
+
+.globe-inspector-card {
+    padding: 8px 12px;
+}
+
+.globe-inspector-card-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #b4b4b4;
+}
+
+.globe-inspector-tag-row {
+    gap: 4px 8px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+.globe-inspector-tag {
+    border: 1px solid var(--tag-color, #666);
+    border-radius: 4px;
+}
+
+.globe-inspector-tag > * {
+    padding: 0 5px;
+}
+
+.globe-inspector-tag > :first-child {
+    color: var(--tag-color, #666);
+    font-size: 14px;
+}
+
+.globe-inspector-tag > :last-child {
+    background-color: var(--tag-color, #666);
+    color: #ffffff;
+    font-size: 16px;
+}
+
+#globe-inspector-cities-dropdown {
+    font-size: 18px;
+    column-gap: 6px;
+}
+
+#globe-inspector-cities-list {
+    margin: 0;
+    max-height: 10vh;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.globe-inspector-cities-list-item {
+    font-size: 16px;
+}
+
+.globe-inspector-cities-list-item:hover {
+    color: rgb(144, 220, 255);
+}

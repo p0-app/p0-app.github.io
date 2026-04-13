@@ -1,0 +1,184 @@
+/* WEBCHEST.HTML */
+
+#webchest-search {
+    row-gap: 15px;
+}
+
+#webchest-timely-suggestions {
+    column-gap: 40px;
+}
+
+#webchest-card-container {
+    row-gap: 30px;
+}
+
+.webchest-profile-container {
+    column-gap: 50px;
+}
+
+.webchest-profile-card {
+    padding: 15px 20px;
+    row-gap: 15px;
+    flex-grow: 1;
+    background-color: rgba(var(--card-bg), 0.15);
+}
+
+.webchest-profile-header-left {
+    column-gap: 15px;
+}
+
+.webchest-profile-name, .webchest-profile-name-input {
+    font-size: 25px;
+}
+
+.webchest-profile-name-input {
+    width: 100%;
+    font-family: "Din Round Bold";
+    background-color: transparent;
+}
+
+.webchest-profile-header-collapse {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.webchest-profile-edit {
+    column-gap: 20px;
+}
+
+.webchest-profile-edit-button {
+    cursor: pointer;
+}
+
+.webchest-profile-more-button {
+    transition: opacity 0.2s ease;
+}
+
+.webchest-profile-header-collapse:hover, .webchest-profile-more-button:not(.element-inactive):hover {
+    opacity: 0.5;
+}
+
+.webchest-profile-edit-button-container {
+    flex-direction: row;
+    column-gap: 20px;
+}
+
+.webchest-profile-edit-button > img, .webchest-profile-edit-button > svg {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+}
+
+.webchest-profile-edit-button > svg {
+    color: #ffffff;
+}
+
+.webchest-site-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+.webchest-site-details-edit {
+    position: relative;
+    cursor: grab;
+}
+
+.webchest-site-details-edit::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    translate: -50% 0;
+    width: 30px;
+    height: 16px;
+    background-image: radial-gradient(circle, rgb(150, 150, 150) 2px, transparent 2px);
+    background-size: 10px 8px;
+    background-position: center;
+    background-repeat: space;
+}
+
+.webchest-site-details-delete {
+    cursor: pointer;
+    position: absolute;
+    font-size: 15px;
+    text-align: center;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.webchest-site-details-delete {
+    color: #ff0000;
+    top: 5px;
+    right: 5px;
+    border-radius: 50%;
+    border: 1px solid #ff0000;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.webchest-site-details-delete:hover {
+    background-color: #ff0000;
+    color: #000000;
+}
+
+.webchest-edit-dragging {
+    opacity: 0.6;
+    cursor: grabbing;
+}
+
+.webchest-edit-drag-over {
+    border-top: 2px solid rgb(28, 176, 246);
+}
+
+.webchest-site-details-addtemp, .webchest-site-details-remtemp {
+    filter: opacity(0.65);
+}
+
+.webchest-site-details-addtemp {
+    position: relative;
+    color: #72ff79;
+}
+
+.webchest-site-details-remtemp {
+    color: #ff7272;
+}
+
+.webchest-site-add-button > img {
+    cursor: pointer;
+    border: 2px solid rgb(28, 176, 246);
+    transition: background-color 0.2s ease;
+}
+
+.webchest-site-add-button > img:hover {
+    background-color: rgba(28, 176, 246, 0.2);
+}
+
+#webchest-site-add-window {
+    width: 60vw;
+    height: fit-content;
+}
+
+#webchest-site-add-title {
+    margin-bottom: 20px;
+}
+
+#webchest-site-add-input-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr max-content;
+    align-items: center;
+    column-gap: 20px;
+    margin-bottom: 20px;
+}
+
+#webchest-site-add-favicon-container {
+    column-gap: 20px;
+}
+
+#webchest-site-add-favicon-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    visibility: hidden;
+}

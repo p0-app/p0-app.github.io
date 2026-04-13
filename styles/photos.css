@@ -1,0 +1,29 @@
+/* PHOTOS.HTML */
+
+#photos-section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#photos-section::after {
+    content: '';
+    flex-grow: 1e4;
+    min-width: 20%;
+}
+
+#photos-section>div {
+    margin: 2px;
+    position: relative;
+}
+
+.photo-i {
+    display: block;
+}
+
+.photo-item {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}

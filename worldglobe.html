@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+        <title>World Globe | Page Zero</title>
+    
+        <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/worldglobe.css">
+    </head>
+
+    <body>
+        <div id="top-row" class="flex-split-row glass-container glass-bg">
+            <div id="top-title-container" class="flex-centered-row">
+                <p id="top-title">P<sub>0</sub></p>
+                <h3 id="top-tool-title">World Globe</h3>
+            </div>
+            <div id="top-buttons-container" class="flex-centered-row">
+                <a href="datamanager.html" id="data-manager-button" class="hover-label" data-label="Data Manager" data-position="bottom"><img src="assets/images/database-config.svg" alt="Data Manager" class="top-icon" draggable="false"></a>
+            </div>
+        </div>
+
+        <div id="main-container">
+            <div id="left-nav" class="flex-column glass-container">
+                <div class="nav-item centered-div hover-label" data-label="Home" data-position="right">
+                    <a href="index.html"><img src="assets/images/home.svg" alt="Home" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Web Chest" data-position="right">
+                    <a href="webchest.html"><img src="assets/images/chest.svg" alt="Web Chest" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="To-do" data-position="right">
+                    <a href="todo.html"><img src="assets/images/todo.webp" alt="To-do" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Focus Timer" data-position="right">
+                    <a href="timer.html"><img src="assets/images/timer.svg" alt="Focus Timer" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Calculator" data-position="right">
+                    <a href="calculator.html"><img src="assets/images/calculator.svg" alt="Calculator" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                </div>
+                <div class="nav-item centered-div nav-tray-container hover-label nav-active" data-label="More Tools" data-position="bottom">
+                    <img src="assets/images/applib.webp" alt="More Tools" class="nav-icon" draggable="false" style="width: 36px;">
+                    <div class="nav-tray glass-container glass-bg flex-centered-row">
+                        <div class="nav-item centered-div hover-label" data-label="Gradebook" data-position="top">
+                            <a href="gradebook.html"><img src="assets/images/gradebook.svg" alt="Gradebook" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Trending Media" data-position="top">
+                            <a href="trending.html"><img src="assets/images/trending.svg" alt="Trending Media" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="RSS Feeds" data-position="top">
+                            <a href="rss.html"><img src="assets/images/rss.svg" alt="RSS Feeds" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Photos Viewer" data-position="top">
+                            <a href="photos.html"><img src="assets/images/photos.svg" alt="Photos Viewer" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label nav-active" data-label="World Globe" data-position="top">
+                            <a href="worldglobe.html"><img src="assets/images/world-globe.svg" alt="World Globe" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="main-content" class="flex-column">
+                <div id="globe-content" class="flex-split-row flex-start-section">
+                    <div id="globe-container">
+                        <div id="globe-elem"></div>
+                        <div id="globe-lock-indicator" style="display: none;"><div class="header-top-button hover-label" data-label="The globe viewer is currently locked to optimize performance.&#10;Click the icon or close the inspector to unlock the viewer." data-position="right"><img src="assets/images/lock.svg" alt="Lock" draggable="false"></div></div>
+                        <div id="globe-settings-container"><div id="globe-settings"><div class="header-top-button hover-label" data-label="Settings" data-position="bottom"><img src="assets/images/settings.svg" alt="Settings" draggable="false"></div></div></div>
+                    </div>
+
+                    <div id="globe-right-container" class="flex-column">
+                        <div id="globe-right-panel" class="right-panel-section flex-column glass-container">
+                            <div id="globe-right-panel-select" class="flex-split-row">
+                                <h3 class="right-panel-header globe-right-panel-selected">Inspector</h3>
+                                <h3 class="right-panel-header">Timezones</h3>
+                            </div>
+                            <div id="globe-inspector-content" class="flex-column"><p>Loading...</p></div>
+                            <div id="globe-timezone-content" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="scripts/helpers/color.js"></script>
+        <script src="scripts/helpers/cookie.js"></script>
+        <script src="scripts/helpers/database.js"></script>
+        <script src="scripts/helpers/genelem.js"></script>
+        <script src="scripts/helpers/gensvg.js"></script>
+        <script src="scripts/helpers/parsing.js"></script>
+
+        <script type="module">
+            import { initGlobe } from "./scripts/worldglobe.js";
+            window.addEventListener("load", () => {
+                initGlobe();
+                checkDbBackup("button");
+            });
+        </script>
+    </body>
+</html>

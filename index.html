@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta http-equiv="refresh" content="3600">
+    
+        <title>Page Zero</title>
+
+        <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/home.css">
+    </head>
+
+    <body>
+        <div id="top-row" class="flex-split-row glass-container glass-bg">
+            <div id="top-title-container" class="flex-centered-row">
+                <div id="top-title" class="flex-centered-row">
+                    <p>P</p>
+                    <div id="top-title-expanded">
+                        <sub>0</sub>
+                        <p>AGE ZERO</p>
+                    </div>
+                </div>
+            </div>
+            <div id="top-buttons-container" class="flex-centered-row">
+                <a href="datamanager.html" id="data-manager-button" class="hover-label" data-label="Data Manager" data-position="bottom"><img src="assets/images/database-config.svg" alt="Data Manager" class="top-icon" draggable="false"></a>
+            </div>
+        </div>
+
+        <div id="main-container" class="onload-wrapper">
+            <div id="left-nav" class="flex-column glass-container">
+                <div class="nav-item centered-div hover-label nav-active" data-label="Home" data-position="right">
+                    <a href="index.html"><img src="assets/images/home.svg" alt="Home" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Web Chest" data-position="right">
+                    <a href="webchest.html"><img src="assets/images/chest.svg" alt="Web Chest" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="To-do" data-position="right">
+                    <a href="todo.html"><img src="assets/images/todo.webp" alt="To-do" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Focus Timer" data-position="right">
+                    <a href="timer.html"><img src="assets/images/timer.svg" alt="Focus Timer" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Calculator" data-position="right">
+                    <a href="calculator.html"><img src="assets/images/calculator.svg" alt="Calculator" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                </div>
+                <div class="nav-item centered-div nav-tray-container hover-label" data-label="More Tools" data-position="bottom">
+                    <img src="assets/images/applib.webp" alt="More Tools" class="nav-icon" draggable="false" style="width: 36px;">
+                    <div class="nav-tray glass-container glass-bg flex-centered-row">
+                        <div class="nav-item centered-div hover-label" data-label="Gradebook" data-position="top">
+                            <a href="gradebook.html"><img src="assets/images/gradebook.svg" alt="Gradebook" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Trending Media" data-position="top">
+                            <a href="trending.html"><img src="assets/images/trending.svg" alt="Trending Media" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="RSS Feeds" data-position="top">
+                            <a href="rss.html"><img src="assets/images/rss.svg" alt="RSS Feeds" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Photos Viewer" data-position="top">
+                            <a href="photos.html"><img src="assets/images/photos.svg" alt="Photos Viewer" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="World Globe" data-position="top">
+                            <a href="worldglobe.html"><img src="assets/images/world-globe.svg" alt="World Globe" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="main-content" class="flex-column">
+                <div id="greeting-container" class="flex-split-row">
+                    <div id="greeting-left" class="flex-centered-row">
+                        <div id="greeting-date-container" class="flex-column">
+                            <p id="greeting-day-of-week"></p>
+                            <p id="greeting-date"></p>
+                        </div>
+                        <div id="greeting-time-container" class="flex-centered-row">
+                            <div id="greeting-time-image"></div>
+                            <div class="flex-column">
+                                <h1 id="greeting"></h1>
+                                <p id="international-day" style="display: none;"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="current-widgets" class="flex-column">
+                        <div id="widget-container" class="centered-div dimensional-button" style="visibility: hidden;"></div>
+                        <div id="widget-cycle-container" class="centered-div" style="visibility: hidden;">
+                            <div class="widget-cycle"></div>
+                            <div class="widget-cycle"></div>
+                            <div class="widget-cycle"></div>
+                            <div class="widget-cycle"></div>
+                            <div class="widget-cycle"></div>
+                        </div>
+                        <img id="widget-visibility" src="assets/images/visibility.svg">
+                    </div>
+                </div>
+
+                <div id="home-top-container" class="section-container">
+                    <div id="search-row" class="flex-split-row">
+                        <div id="search-bar" class="centered-div flex-split-row-grow"></div>
+                        <div id="search-bar-button-container" class="intelligent-container"></div>
+                        <div id="search-more-button" class="circular-button centered-div hover-label" data-position="bottom"></div>
+                    </div>
+
+                    <div id="home-more-container"></div>
+                </div>
+
+                <div class="section-container">
+                    <div class="section-title-container">
+                        <img src="assets/images/target.svg" alt="Target" class="section-icon" draggable="false">
+                        <h3 class="section-title">Day at a Glance</h3>
+                    </div>
+                    <div id="day-content-container" class="flex-split-row flex-start-section">
+                        <div id="day-bar-container" class="flex-column flex-split-row-grow glass-container"></div>
+                        <div id="todo-summary-container" class="glass-container"></div>
+                    </div>
+                </div>
+
+                <div class="section-container">
+                    <div class="flex-split-row">
+                        <div class="section-title-container flex-split-row-grow">
+                            <img src="assets/images/pencil.svg" alt="Pencil" class="section-icon" draggable="false" style="height: 45px; margin-right: 10px;">
+                            <h3 class="section-title">Assignments Lookahead</h3>
+                        </div>
+
+                        <div id="lookahead-settings">
+                            <div id="lookahead-visibility" class="header-top-button circular-button hover-label" data-label="Visibility" data-position="bottom">
+                                <img src="assets/images/visibility.svg" alt="Visibility" draggable="false" class="material-icon-inactive">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="lookahead-card-container">
+                        <div id="fiveday-events" class="lookahead-card">
+                            <h4 id="fiveday-lookahead-title" class="lookahead-card-title">Next 5 days</h4>
+                            <div id="fiveday-lookahead-container" class="lookahead-container flex-column">
+                                <div class="lookahead-loading"></div>
+                                <p class="lookahead-status-text">Fetching assignments...</p>
+                            </div>
+                        </div>
+                        <div id="horizon-events" class="lookahead-card">
+                            <h4 id="horizon-lookahead-title" class="lookahead-card-title">On the horizon</h4>
+                            <div id="horizon-lookahead-container" class="lookahead-container flex-column">
+                                <div class="lookahead-loading"></div>
+                                <p class="lookahead-status-text">Fetching assignments...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="scripts/helpers/genelem.js"></script>
+        <script src="scripts/helpers/gensvg.js"></script>
+        <script src="scripts/helpers/color.js"></script>
+        <script src="scripts/helpers/cookie.js"></script>
+        <script src="scripts/helpers/database.js"></script>
+        <script src="scripts/helpers/datetime.js"></script>
+        <script src="scripts/helpers/lookahead.js"></script>
+        <script src="scripts/helpers/parsing.js"></script>
+        <script src="scripts/helpers/math/math-helpers.js"></script>
+        <script src="assets/data/api-keys.js"></script>
+        <script src="assets/data/international-days.js"></script>
+        <script src="assets/data/quotes.js"></script>
+        <script src="scripts/home.js"></script>
+
+        <script>
+            window.onload = async () => {
+                generateVisuals();
+                loadHomeFeatures();
+                checkDbBackup("button");
+            }
+
+
+
+            const now = new Date();
+
+            function generateVisuals() {
+                const date = now.getDate();
+                const dayIndex = now.getDay();
+                const hours = now.getHours();
+                const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+                document.getElementById("greeting-day-of-week").textContent = daysOfWeek[dayIndex];
+                document.getElementById("greeting-date").textContent = date;
+                document.getElementById("greeting").textContent = hours < 12 ? "Good morning" : hours < 18 ? "Good afternoon" : "Good evening";
+
+                let timeImg = document.createElement("img");
+                timeImg.src = hours < 12 ? "assets/images/morning.png" : hours < 18 ? "assets/images/afternoon.png" : "assets/images/nighttime.png";
+                timeImg.draggable = false;
+                document.getElementById("greeting-time-image").appendChild(timeImg);
+
+                let baseHue = Math.floor(Math.random() * 51);
+                let color1 = getRandomLightColor(), color2 = getRandomLightColor(), color3 = getRandomLightColor();
+                document.getElementById("greeting").style.backgroundImage = `linear-gradient(0.25turn, ${color1} 0px, ${color2} 17%, ${color3} 33%, ${color1} 51%, ${color2} 67%, ${color3} 83%, ${color1} 95%)`;
+                function getRandomLightColor() {
+                    const h = baseHue + Math.floor(Math.random() * 211);
+                    const s = Math.floor(60 + Math.random() * 40);
+                    const l = Math.floor(70 + Math.random() * 15);
+                    return `hsl(${h}, ${s}%, ${l}%)`;
+                }
+
+                let firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+                let internationalDays = INTERNATIONAL_DAYS.filter(x => x.date[0] == now.getMonth() + 1 && (x.date[1] == now.getDate() || (x.date[1].startsWith("dow-") && x.date[1].slice(4) == `${daysOfWeek[dayIndex].toLowerCase()}-${Math.floor((date - (((7 + dayIndex - firstDayOfMonth) % 7) + 1)) / 7) + 1}`)));
+                if (internationalDays.length > 0) {
+                    let dayText = document.getElementById("international-day");
+                    dayText.style.display = "block";
+                    dayText.innerHTML = "It's " + internationalDays.map(internationalDay => `${internationalDay.emoji ? `${internationalDay.emoji} ` : ""}<a href="https://www.google.com/search?q=${encodeURIComponent(internationalDay.name)}">${sanitizeInnerHTML(internationalDay.name)}</a>`).join(", ");
+                }
+
+                createCircularBorders();
+            }
+
+            async function loadHomeFeatures() {
+                const keysData = await loadKeys();
+
+                if (IS_LOCAL || keysData) {
+                    const todoDb = await openDatabase(["todo_db", 2], ["todo_os", "key"], ["streak", "entries", "settings"]);
+                    const todoData = await readDatabase(todoDb, "todo_os", "main");
+                    let dateStr = getConcatDateStr(now);
+                    generateDaySummary(todoData?.entries[dateStr] || [], dateStr, "compact", false);
+
+                    const webchestDb = await openDatabase(["webchest_db", 3], ["webchest_os", "profile"], ["collapsed", "color", "order", "sites"]);
+                    const allProfiles = await readDatabase(webchestDb, "webchest_os");
+                    initSearchBar(allProfiles, webchestDb);
+
+                    const timerDb = await openDatabase(["timer_db", 4], ["timer_os", "key"], ["timeSet", "timeRemaining", "endAt", "state", "sessionData", "settings"]);
+                    const timerData = await readDatabase(timerDb, "timer_os", "main");
+                    checkTimerBreak(timerDb, true);
+
+                    const lookaheadDb = await openDatabase(["lookahead_db", 2], ["lookahead_os", "key"], ["seenAssignments"]);
+                    const lookaheadData = await readDatabase(lookaheadDb, "lookahead_os", "main");
+
+                    initHome(webchestDb, allProfiles, todoDb, todoData, lookaheadDb, lookaheadData, timerData);
+                    estimateLocation(todoData, dateStr, now.getTime());
+                    initWidgets(keysData);
+                    updateLookahead(lookaheadDb, lookaheadData, keysData);
+                    updateCanvasToken();
+                }
+                
+                async function updateCanvasToken() {
+                    let tokenInfo = localStorage.getItem("canvasLmsToken");
+                    let tokenId, tokenExpiry;
+
+                    if (!tokenInfo) {
+                        let existingResp = await fetch(`${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}/api/v1/users/self/user_generated_tokens`, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}` } });
+                        let existingTokens = await existingResp.json();
+                        if (!existingTokens?.[0]?.id) return;
+                        tokenId = existingTokens[0].id;
+                    } else {
+                        [tokenId, tokenExpiry] = tokenInfo.split(",");
+                    }
+
+                    if (!tokenExpiry || new Date(tokenExpiry).getTime() - Date.now() <= 14 * 8.64e7) {
+                        let updateResp = await fetch(`${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}/api/v1/users/self/tokens/${tokenId}`, {
+                            method: "PUT",
+                            headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}`, "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                token: { expires_at: new Date(Date.now() + 120 * 8.64e7).toISOString() }
+                            })
+                        });
+                        let updatedToken = await updateResp.json();
+                        if (updatedToken.expires_at) localStorage.setItem("canvasLmsToken", `${tokenId},${updatedToken.expires_at}`);
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+        <title>To-do | Page Zero</title>
+
+        <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/todo.css">
+    </head>
+
+    <body>
+        <div id="top-row" class="flex-split-row glass-container glass-bg">
+            <div id="top-title-container" class="flex-centered-row">
+                <p id="top-title">P<sub>0</sub></p>
+                <h3 id="top-tool-title">To-do</h3>
+            </div>
+            <div id="top-buttons-container" class="flex-centered-row">
+                <a href="datamanager.html" id="data-manager-button" class="hover-label" data-label="Data Manager" data-position="bottom"><img src="assets/images/database-config.svg" alt="Data Manager" class="top-icon" draggable="false"></a>
+            </div>
+        </div>
+
+        <div id="main-container" class="onload-wrapper">
+            <div id="left-nav" class="flex-column glass-container">
+                <div class="nav-item centered-div hover-label" data-label="Home" data-position="right">
+                    <a href="index.html"><img src="assets/images/home.svg" alt="Home" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Web Chest" data-position="right">
+                    <a href="webchest.html"><img src="assets/images/chest.svg" alt="Web Chest" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label nav-active" data-label="To-do" data-position="right">
+                    <a href="todo.html"><img src="assets/images/todo.webp" alt="To-do" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Focus Timer" data-position="right">
+                    <a href="timer.html"><img src="assets/images/timer.svg" alt="Focus Timer" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Calculator" data-position="right">
+                    <a href="calculator.html"><img src="assets/images/calculator.svg" alt="Calculator" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                </div>
+                <div class="nav-item centered-div nav-tray-container hover-label" data-label="More Tools" data-position="bottom">
+                    <img src="assets/images/applib.webp" alt="More Tools" class="nav-icon" draggable="false" style="width: 36px;">
+                    <div class="nav-tray glass-container glass-bg flex-centered-row">
+                        <div class="nav-item centered-div hover-label" data-label="Gradebook" data-position="top">
+                            <a href="gradebook.html"><img src="assets/images/gradebook.svg" alt="Gradebook" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Trending Media" data-position="top">
+                            <a href="trending.html"><img src="assets/images/trending.svg" alt="Trending Media" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="RSS Feeds" data-position="top">
+                            <a href="rss.html"><img src="assets/images/rss.svg" alt="RSS Feeds" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Photos Viewer" data-position="top">
+                            <a href="photos.html"><img src="assets/images/photos.svg" alt="Photos Viewer" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="World Globe" data-position="top">
+                            <a href="worldglobe.html"><img src="assets/images/world-globe.svg" alt="World Globe" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="main-content" class="flex-column">
+                <div id="todo-top-container" class="section-container flex-split-row flex-start-section">
+                    <div id="todo-left" class="flex-column flex-split-row-grow">
+                        <div id="todo-left-header" class="flex-centered-row">
+                            <h3 id="todo-title" class="tool-title">Day Plan</h3>
+                            <div class="vertical-divider"></div>
+                            <div id="todo-date-container" class="flex-centered-row">
+                                <div id="todo-date-left" class="todo-date-arrow circular-button centered-div hover-label" data-label="Yesterday" data-position="bottom" data-stroke-color="rgb(28, 176, 246)">
+                                    <svg width="32" height="32" viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"></path>
+                                    </svg>
+                                </div>
+                                <h3 id="todo-current-date"></h3>
+                                <div id="todo-date-right" class="todo-date-arrow circular-button centered-div hover-label" data-label="Tomorrow" data-position="bottom" data-stroke-color="rgb(28, 176, 246)">
+                                    <svg width="32" height="32" viewBox="0 -960 960 960" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="day-bar-container" class="flex-column glass-container"></div>
+
+                        <div id="todo-tools-container" class="flex-centered-row">
+                            <div id="todo-summary-container" class="flex-split-row-grow glass-container"></div>
+                            <div id="todo-tool-buttons" class="flex-column">
+                                <div id="todo-add-button" class="todo-tool centered-div dimensional-button blue-button">
+                                    <img src="assets/images/add.svg" draggable="false">
+                                    <p>Add task</p>
+                                </div>
+
+                                <div id="todo-sub-tools" class="flex-centered-row">
+                                    <div id="todo-filter-button">
+                                        <div class="todo-tool centered-div dimensional-button hover-label" data-label="Filter tasks" data-position="bottom">
+                                            <img src="assets/images/filter.svg" draggable="false">
+                                        </div>
+                                    </div>
+                                    <div id="todo-search-button">
+                                        <div class="todo-tool centered-div dimensional-button hover-label" data-label="Search tasks" data-position="bottom">
+                                            <img src="assets/images/search.svg" draggable="false">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="todo-right-container" class="flex-column">
+                        <div id="todo-right-header" class="flex-centered-row">
+                            <div id="todo-streak-today-container" class="flex-centered-row"></div>
+                            <div id="header-top-buttons" class="flex-centered-row">
+                                <div id="todo-insights-button" class="header-top-button circular-button hover-label" data-label="Insights" data-position="bottom">
+                                    <img src="assets/images/chart.svg" alt="Insights" draggable="false">
+                                </div>
+                                <div id="page-settings">
+                                    <div class="header-top-button circular-button hover-label" data-label="Settings" data-position="bottom">
+                                        <img src="assets/images/settings.svg" alt="Settings" draggable="false">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="todo-streak-calendar" class="glass-container"></div>
+                    </div>
+                </div>
+
+                <div class="section-container">
+                    <div id="todo-list-items"></div>
+                    <div id="todo-list-status" class="glass-container flex-centered-row centered-div" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="scripts/helpers/cookie.js"></script>
+        <script src="scripts/helpers/genelem.js"></script>
+        <script src="scripts/helpers/gensvg.js"></script>
+        <script src="scripts/helpers/datetime.js"></script>
+        <script src="scripts/helpers/database.js"></script>
+        <script src="scripts/helpers/parsing.js"></script>
+        <script src="scripts/helpers/math/math-helpers.js"></script>
+        <script src="assets/data/api-keys.js"></script>
+        <script src="scripts/todo.js"></script>
+
+        <script>
+            window.onload = () => {
+                initTodo();
+                checkTimerBreak(null, true);
+                checkDbBackup("button");
+            }
+        </script>
+    </body>
+</html>

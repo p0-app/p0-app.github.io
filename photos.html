@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+        <title>Photos Viewer | Page Zero</title>
+    
+        <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/photos.css">
+    </head>
+
+    <body>
+        <div id="top-row" class="flex-split-row glass-container">
+            <div id="top-title-container" class="flex-centered-row">
+                <p id="top-title">P<sub>0</sub></p>
+                <h3 id="top-tool-title">Photos Viewer</h3>
+            </div>
+        </div>
+
+        <div id="main-container" class="onload-wrapper">
+            <div id="left-nav" class="flex-column glass-container">
+                <div class="nav-item centered-div hover-label" data-label="Home" data-position="right">
+                    <a href="index.html"><img src="assets/images/home.svg" alt="Home" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Web Chest" data-position="right">
+                    <a href="webchest.html"><img src="assets/images/chest.svg" alt="Web Chest" class="nav-icon" draggable="false"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="To-do" data-position="right">
+                    <a href="todo.html"><img src="assets/images/todo.webp" alt="To-do" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Focus Timer" data-position="right">
+                    <a href="timer.html"><img src="assets/images/timer.svg" alt="Focus Timer" class="nav-icon" draggable="false" style="width: 42px;"></a>
+                </div>
+                <div class="nav-item centered-div hover-label" data-label="Calculator" data-position="right">
+                    <a href="calculator.html"><img src="assets/images/calculator.svg" alt="Calculator" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                </div>
+                <div class="nav-item centered-div nav-tray-container hover-label nav-active" data-label="More Tools" data-position="bottom">
+                    <img src="assets/images/applib.webp" alt="More Tools" class="nav-icon" draggable="false" style="width: 36px;">
+                    <div class="nav-tray glass-container glass-bg flex-centered-row">
+                        <div class="nav-item centered-div hover-label" data-label="Gradebook" data-position="top">
+                            <a href="gradebook.html"><img src="assets/images/gradebook.svg" alt="Gradebook" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="Trending Media" data-position="top">
+                            <a href="trending.html"><img src="assets/images/trending.svg" alt="Trending Media" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="RSS Feeds" data-position="top">
+                            <a href="rss.html"><img src="assets/images/rss.svg" alt="RSS Feeds" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label nav-active" data-label="Photos Viewer" data-position="top">
+                            <a href="photos.html"><img src="assets/images/photos.svg" alt="Photos Viewer" class="nav-icon" draggable="false" style="width: 36px;"></a>
+                        </div>
+                        <div class="nav-item centered-div hover-label" data-label="World Globe" data-position="top">
+                            <a href="worldglobe.html"><img src="assets/images/world-globe.svg" alt="World Globe" class="nav-icon" draggable="false" style="width: 30px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="main-content" class="flex-column">
+                <div id="photos-upload-area" class="section-container upload-area flex-column flex-split-row-grow centered-div">
+                    <p class="upload-text">Drag &amp; drop individual photos</p>
+                    <p class="upload-text">- OR -</p>
+                    <button id="photos-upload-button" class="upload-button dimensional-button">Choose photos folder</button>
+                    <input id="photos-upload-input" class="upload-input" type="file" webkitdirectory directory accept=".jpg, .jpeg, .png, .webp, .svg" multiple style="display:none;">
+                </div>
+
+                <section id="photos-section" class="section-container"></section>
+            </div>
+        </div>
+
+
+
+        <script src="scripts/helpers/genelem.js"></script>
+        <script src="scripts/helpers/upload.js"></script>
+        <script src="scripts/photos.js"></script>
+
+        <script>
+            window.onload = () => {
+                initUpload("photos-upload-area", "photos-upload-button", "photos-upload-input", "image/", parsePhotos);
+                checkTimerBreak(null, true);
+            }
+        </script>
+    </body>
+</html>
