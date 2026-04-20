@@ -616,7 +616,7 @@ async function getAuthData(dataIdx) {
 }
 
 async function getSpotifyToken() {
-    let existingToken = getCookie("spotifyToken");
+    let existingToken = await getCookie("spotifyToken");
     if (existingToken) return existingToken;
 
     try {
@@ -628,7 +628,7 @@ async function getSpotifyToken() {
         let data = await resp.json();
         if (!data?.access_token) return null;
 
-        setCookie("spotifyToken", data.access_token, 1);
+        await setCookie("spotifyToken", data.access_token, 1);
         return data.access_token;
     } catch {
         return null;

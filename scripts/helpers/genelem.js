@@ -1436,6 +1436,14 @@ function displayBreakOverlay(timerData, timerDb, timeDiff) {
     breakWindow.append(breakTopRow, breakStatsContainer);
     breakOverlay.appendChild(breakWindow);
     document.body.appendChild(breakOverlay);
+
+    if (!IS_LOCAL && Notification.permission == "granted") {
+        try {
+            new Notification("Time for a break!", { body: "Your focus timer has ended." });
+        } catch {
+            console.log("Failed to show timer break notification");
+        }
+    }
 }
 
 function setupBreakTimer(breakRemaining, timerData, timerDb, breakTopRow, breakOverlay) {

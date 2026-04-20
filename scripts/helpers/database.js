@@ -108,11 +108,11 @@ async function saveDatabase(db, osName, newObjs, showSuccess, forceLocal = false
 
             transaction.oncomplete = () => {
                 if (!["widget_os", "lookahead_os"].includes(osName)) {
-                    let localSaves = getCookie("localSaves");
+                    let localSaves = localStorage.getItem("localSaves");
                     let localSaveSplit = localSaves ? localSaves.split(",") : [null];
                     localSaveSplit[0] = Date.now().toString();
                     if (!localSaveSplit.includes(osName)) localSaveSplit.push(osName);
-                    setCookie("localSaves", localSaveSplit.join(","), 7 * 24);
+                    localStorage.setItem("localSaves", localSaveSplit.join(","));
                 }
                 if (showSuccess) dbMessagePopup("Saved to database.", "#469d4a", 1500);
                 resolve("ok");
@@ -208,7 +208,7 @@ function dbMessagePopup(message, bgColor, timeout) {
 async function checkDbBackup(mode) {
     if (!IS_LOCAL) return;
 
-    let localSaves = getCookie("localSaves"), localSaveSplit, localSaveTime;
+    let localSaves = localStorage.getItem("localSaves"), localSaveSplit, localSaveTime;
     if (localSaves) {
         localSaveSplit = localSaves.split(",");
         localSaveTime = parseInt(localSaveSplit[0]);
@@ -249,7 +249,7 @@ async function checkDbBackup(mode) {
 }
 
 async function getGoogleToken(firebaseKeys) {
-    let existingToken = getCookie("googleToken");
+    let existingToken = await getCookie("googleToken");
     if (existingToken) return existingToken;
     if (!IS_LOCAL && !keysData?.firebase) return null;
 
@@ -294,7 +294,7 @@ async function getGoogleToken(firebaseKeys) {
     }
     if (!googleData?.access_token) return null;
 
-    setCookie("googleToken", googleData.access_token, googleData.expires_in ? googleData.expires_in / 3600 : 1);
+    await setCookie("googleToken", googleData.access_token, googleData.expires_in ? googleData.expires_in / 3600 : 1);
     return googleData.access_token;
 }
 

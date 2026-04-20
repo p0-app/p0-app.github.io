@@ -223,6 +223,10 @@ function showHideHMS(forceHMS) {
 }
 
 async function startTimer() {
+    if (!IS_LOCAL && Notification.permission == "default") {
+        await Notification.requestPermission();
+    }
+
     timerData.state = "timing";
     if (timerData.timeRemaining == 0) timerData.timeRemaining = timerData.timeSet;
     timerData.endAt = new Date().getTime() + timerData.timeRemaining * 1000;

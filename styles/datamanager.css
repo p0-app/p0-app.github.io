@@ -60,10 +60,17 @@
     row-gap: 10px;
 }
 
+.data-manager-transfer-button > img, .data-manager-transfer-button > svg {
+    border-radius: 8px;
+}
+
 .data-manager-transfer-button > img {
     width: 28px;
     height: 28px;
-    border-radius: 8px;
+}
+
+.data-manager-transfer-button > svg {
+    color: rgb(var(--hover-bg));
 }
 
 .data-manager-reminder {

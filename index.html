@@ -238,6 +238,11 @@
                     initWidgets(keysData);
                     updateLookahead(lookaheadDb, lookaheadData, keysData);
                     updateCanvasToken();
+                } else {
+                    let connectPrompt = confirm("Not connected to database. Would you like to connect?\nNote: Most functionality will be unavailable until database is connected.");
+                    if (connectPrompt) {
+                        window.location.href = "datamanager.html";
+                    }
                 }
                 
                 async function updateCanvasToken() {

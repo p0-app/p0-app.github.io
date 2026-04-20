@@ -11,10 +11,9 @@ async function initWebchest() {
     if (allProfiles?.length > 0) {
         allProfiles.sort((a, b) => a.order - b.order);
         allProfiles.forEach(profileData => generateProfileCard(profileData));
-        allProfiles.forEach(profileData => delete profileData.collapsed);
 
         // updateProfileOrder();
-        await saveDatabase(webchestDb, "webchest_os", allProfiles, false);
+        // await saveDatabase(webchestDb, "webchest_os", allProfiles, false);
     }
 
     loadTimelySuggestions(document.getElementById("webchest-timely-suggestions"), true, "Site Suggestions", [{ type: "sites", content: allProfiles, db: webchestDb }]);

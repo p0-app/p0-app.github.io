@@ -40,7 +40,7 @@ async function checkFirebaseConnection() {
 
     if (IS_LOCAL) {
         statusCircle.style.backgroundColor = "rgb(0, 187, 0)";
-        statusText.textContent = `Locally connected`;
+        statusText.textContent = `Google Firebase: Locally connected`;
     } else {
         keysDb = await openDatabase(["keys_db", 1], ["keys_os", "key"], [], true);
         keysData = await readDatabase(keysDb, "keys_os", "main", true);
@@ -135,7 +135,7 @@ async function checkFirebaseConnection() {
             });
         } else {
             statusCircle.style.backgroundColor = "rgb(0, 187, 0)";
-            statusText.textContent = `Connected & auto-syncing to: ${keysData.firebase[0]}`;
+            statusText.textContent = `Google Firebase: Connected & auto-syncing to: ${keysData.firebase[0]}`;
 
             firebaseButton.textContent = "Refresh";
             firebaseButton.addEventListener("click", async () => {
@@ -202,7 +202,7 @@ function createDataLayout(contentId, action, transferType) {
         itemList.appendChild(optionItem);
     });
 
-    let selectAll = createImgButton(["data-manager-transfer-button"], "img", "assets/images/select-all.svg", "180, 180, 180", { text: "Select all", position: "bottom" });
+    let selectAll = createImgButton(["data-manager-transfer-button"], "svg", createSelectAllSvg("28"), "180, 180, 180", { text: "Select all", position: "bottom" });
     selectAll.addEventListener("click", () => {
         let inputs = itemList.querySelectorAll("input");
         let allSelected = Array.from(inputs).every(input => input.checked);
@@ -348,10 +348,10 @@ function createDataLayout(contentId, action, transferType) {
             let backupReminder, backupList;
             switch (action) {
                 case "firebase-backup":
-                    let localSaves = getCookie("localSaves");
+                    let localSaves = localStorage.getItem("localSaves");
                     if (!localSaves) return;
                     let localSaveTime = localSaves.split(",")[0];
-                    setCookie("localSaves", localSaveTime, 7 * 24);
+                    localStorage.setItem("localSaves", localSaveTime);
                     try {
                         await fetch(`${API_KEYS.firebase[0]}/metadata.json?access_token=${googleToken}`, {
                             method: "PUT",
@@ -378,7 +378,7 @@ function createDataLayout(contentId, action, transferType) {
                         alert("Failed to fetch Firebase backup time metadata.");
                         return;
                     }
-                    setCookie("localSaves", metadata.lastGoogleBackup.toString(), 7 * 24);
+                    localStorage.setItem("localSaves", metadata.lastGoogleBackup.toString());
                     backupReminder = document.getElementById("data-manager-import-reminder");
                     backupList = document.getElementById("data-manager-import-google-content");
                     break;
@@ -415,7 +415,7 @@ async function generateBackupReminders() {
             }
         });
 
-        let selectModifiedButton = createImgButton(["data-manager-transfer-button"], "img", "assets/images/select-all.svg", "255, 200, 0", { text: "Select modified", position: "bottom" });
+        let selectModifiedButton = createImgButton(["data-manager-transfer-button"], "svg", createSelectAllSvg("28"), "255, 200, 0", { text: "Select modified", position: "bottom" }, true);
         selectModifiedButton.addEventListener("click", () => {
             modifiedInputs.forEach(x => x.checked = true);
         });
@@ -428,7 +428,7 @@ async function generateBackupReminders() {
             backupReminder = document.getElementById("data-manager-backup-reminder");
             backupReminder.innerHTML = `<img src="assets/images/info.svg"><p>Locally stored data has been modified. Back up to Firebase to synchronize.</p><p style="color: rgb(255, 200, 0);">Modified items</p>`;
 
-            let localSaves = getCookie("localSaves"), localSaveSplit = localSaves ? localSaves.split(",") : null;
+            let localSaves = localStorage.getItem("localSaves"), localSaveSplit = localSaves ? localSaves.split(",") : null;
             if (localSaveSplit?.length > 1) {
                 showModifiedItems("data-manager-backup-google-content", localSaveSplit);
             }
