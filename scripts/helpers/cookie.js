@@ -23,7 +23,7 @@ async function setCookie(name, value, lifespan) {
     let expires = new Date();
     expires.setTime(expires.getTime() + lifespan * 3.6e6);
     if (IS_LOCAL) {
-        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/`;
+        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
     } else {
         try {
             await cookieStore.set({

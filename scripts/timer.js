@@ -1,3 +1,10 @@
+window.onload = () => {
+    initTimer();
+    checkDbBackup("button");
+}
+
+
+
 let timerDb, timerData, timerInterval;
 
 async function initTimer() {

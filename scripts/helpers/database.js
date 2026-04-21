@@ -251,7 +251,7 @@ async function checkDbBackup(mode) {
 async function getGoogleToken(firebaseKeys) {
     let existingToken = await getCookie("googleToken");
     if (existingToken) return existingToken;
-    if (!IS_LOCAL && !keysData?.firebase) return null;
+    if (!IS_LOCAL && !firebaseKeys) return null;
 
     function base64UrlEncode(data) {
         return btoa(JSON.stringify(data)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');

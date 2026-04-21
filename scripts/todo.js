@@ -1,3 +1,11 @@
+window.onload = () => {
+    initTodo();
+    checkTimerBreak(null, true);
+    checkDbBackup("button");
+}
+
+
+
 let todoDb, todoData;
 const CATEGORIES = [{ name: "Tasks", image: "category.svg", color: "#49bff9" }, { name: "Personal", image: "person.svg", color: "#46f7e7" }, { name: "School", image: "school.svg", color: "#da954b" }, { name: "Work", image: "work.svg", color: "#9dc386" }, { name: "Hobby", image: "hobby.svg", color: "#d08370" }, { name: "Vacation", image: "sail.svg", color: "#a6c5e3" }];
 

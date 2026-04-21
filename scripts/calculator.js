@@ -1,3 +1,11 @@
+window.onload = () => {
+    initCalculator();
+    checkTimerBreak(null, true);
+    checkDbBackup("button");
+}
+
+
+
 let calculatorDb, calculatorData;
 let calculatorDisplay = document.getElementById("calculator-display-container"), calculatorVal = document.getElementById("calculator-display-curr"), prevVal = document.getElementById("calculator-display-prev");
 let calculatorResult;

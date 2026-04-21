@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' googleusercontent.com;">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
         <title>Web Chest | Page Zero</title>
@@ -97,13 +98,5 @@
         <script src="scripts/helpers/parsing.js"></script>
         <script src="assets/data/api-keys.js"></script>
         <script src="scripts/webchest.js"></script>
-
-        <script>
-            window.onload = () => {
-                initWebchest();
-                checkTimerBreak(null, true);
-                checkDbBackup("button");
-            }
-        </script>
     </body>
 </html>

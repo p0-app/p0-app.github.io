@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' googleusercontent.com openweathermap.org;">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta http-equiv="refresh" content="3600">
     
@@ -165,112 +166,5 @@
         <script src="assets/data/international-days.js"></script>
         <script src="assets/data/quotes.js"></script>
         <script src="scripts/home.js"></script>
-
-        <script>
-            window.onload = async () => {
-                generateVisuals();
-                loadHomeFeatures();
-                checkDbBackup("button");
-            }
-
-
-
-            const now = new Date();
-
-            function generateVisuals() {
-                const date = now.getDate();
-                const dayIndex = now.getDay();
-                const hours = now.getHours();
-                const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-                document.getElementById("greeting-day-of-week").textContent = daysOfWeek[dayIndex];
-                document.getElementById("greeting-date").textContent = date;
-                document.getElementById("greeting").textContent = hours < 12 ? "Good morning" : hours < 18 ? "Good afternoon" : "Good evening";
-
-                let timeImg = document.createElement("img");
-                timeImg.src = hours < 12 ? "assets/images/morning.png" : hours < 18 ? "assets/images/afternoon.png" : "assets/images/nighttime.png";
-                timeImg.draggable = false;
-                document.getElementById("greeting-time-image").appendChild(timeImg);
-
-                let baseHue = Math.floor(Math.random() * 51);
-                let color1 = getRandomLightColor(), color2 = getRandomLightColor(), color3 = getRandomLightColor();
-                document.getElementById("greeting").style.backgroundImage = `linear-gradient(0.25turn, ${color1} 0px, ${color2} 17%, ${color3} 33%, ${color1} 51%, ${color2} 67%, ${color3} 83%, ${color1} 95%)`;
-                function getRandomLightColor() {
-                    const h = baseHue + Math.floor(Math.random() * 211);
-                    const s = Math.floor(60 + Math.random() * 40);
-                    const l = Math.floor(70 + Math.random() * 15);
-                    return `hsl(${h}, ${s}%, ${l}%)`;
-                }
-
-                let firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
-                let internationalDays = INTERNATIONAL_DAYS.filter(x => x.date[0] == now.getMonth() + 1 && (x.date[1] == now.getDate() || (x.date[1].startsWith("dow-") && x.date[1].slice(4) == `${daysOfWeek[dayIndex].toLowerCase()}-${Math.floor((date - (((7 + dayIndex - firstDayOfMonth) % 7) + 1)) / 7) + 1}`)));
-                if (internationalDays.length > 0) {
-                    let dayText = document.getElementById("international-day");
-                    dayText.style.display = "block";
-                    dayText.innerHTML = "It's " + internationalDays.map(internationalDay => `${internationalDay.emoji ? `${internationalDay.emoji} ` : ""}<a href="https://www.google.com/search?q=${encodeURIComponent(internationalDay.name)}">${sanitizeInnerHTML(internationalDay.name)}</a>`).join(", ");
-                }
-
-                createCircularBorders();
-            }
-
-            async function loadHomeFeatures() {
-                const keysData = await loadKeys();
-
-                if (IS_LOCAL || keysData) {
-                    const todoDb = await openDatabase(["todo_db", 2], ["todo_os", "key"], ["streak", "entries", "settings"]);
-                    const todoData = await readDatabase(todoDb, "todo_os", "main");
-                    let dateStr = getConcatDateStr(now);
-                    generateDaySummary(todoData?.entries[dateStr] || [], dateStr, "compact", false);
-
-                    const webchestDb = await openDatabase(["webchest_db", 3], ["webchest_os", "profile"], ["collapsed", "color", "order", "sites"]);
-                    const allProfiles = await readDatabase(webchestDb, "webchest_os");
-                    initSearchBar(allProfiles, webchestDb);
-
-                    const timerDb = await openDatabase(["timer_db", 4], ["timer_os", "key"], ["timeSet", "timeRemaining", "endAt", "state", "sessionData", "settings"]);
-                    const timerData = await readDatabase(timerDb, "timer_os", "main");
-                    checkTimerBreak(timerDb, true);
-
-                    const lookaheadDb = await openDatabase(["lookahead_db", 2], ["lookahead_os", "key"], ["seenAssignments"]);
-                    const lookaheadData = await readDatabase(lookaheadDb, "lookahead_os", "main");
-
-                    initHome(webchestDb, allProfiles, todoDb, todoData, lookaheadDb, lookaheadData, timerData);
-                    estimateLocation(todoData, dateStr, now.getTime());
-                    initWidgets(keysData);
-                    updateLookahead(lookaheadDb, lookaheadData, keysData);
-                    updateCanvasToken();
-                } else {
-                    let connectPrompt = confirm("Not connected to database. Would you like to connect?\nNote: Most functionality will be unavailable until database is connected.");
-                    if (connectPrompt) {
-                        window.location.href = "datamanager.html";
-                    }
-                }
-                
-                async function updateCanvasToken() {
-                    let tokenInfo = localStorage.getItem("canvasLmsToken");
-                    let tokenId, tokenExpiry;
-
-                    if (!tokenInfo) {
-                        let existingResp = await fetch(`${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}/api/v1/users/self/user_generated_tokens`, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}` } });
-                        let existingTokens = await existingResp.json();
-                        if (!existingTokens?.[0]?.id) return;
-                        tokenId = existingTokens[0].id;
-                    } else {
-                        [tokenId, tokenExpiry] = tokenInfo.split(",");
-                    }
-
-                    if (!tokenExpiry || new Date(tokenExpiry).getTime() - Date.now() <= 14 * 8.64e7) {
-                        let updateResp = await fetch(`${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}/api/v1/users/self/tokens/${tokenId}`, {
-                            method: "PUT",
-                            headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}`, "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                token: { expires_at: new Date(Date.now() + 120 * 8.64e7).toISOString() }
-                            })
-                        });
-                        let updatedToken = await updateResp.json();
-                        if (updatedToken.expires_at) localStorage.setItem("canvasLmsToken", `${tokenId},${updatedToken.expires_at}`);
-                    }
-                }
-            }
-        </script>
     </body>
 </html>

@@ -1,3 +1,11 @@
+window.onload = () => {
+    initWebchest();
+    checkTimerBreak(null, true);
+    checkDbBackup("button");
+}
+
+
+
 let webchestDb, allProfiles;
 
 async function initWebchest() {
