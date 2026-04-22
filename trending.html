@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.stevenlu.com https://*.nytimes.com https://*.spotify.com https://*.omdbapi.com https://*.rapidapi.com https://*.bibliocommons.com;">
+        <meta http-equiv="Referrer-Policy" content="no-referrer">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
         <title>Trending Media | Page Zero</title>
@@ -87,13 +89,5 @@
         <script src="scripts/helpers/parsing.js"></script>
         <script src="assets/data/api-keys.js"></script>
         <script src="scripts/trending.js"></script>
-
-        <script>
-            window.onload = () => {
-                initTrending();
-                checkTimerBreak(null, true);
-                checkDbBackup("button");
-            }
-        </script>
     </body>
 </html>

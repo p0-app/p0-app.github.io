@@ -1,3 +1,11 @@
+window.onload = () => {
+    initTrending();
+    checkTimerBreak(null, true);
+    checkDbBackup("button");
+}
+
+
+
 let trendingDb, trendingData = [];
 
 async function initTrending() {

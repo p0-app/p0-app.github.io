@@ -1,3 +1,10 @@
+window.onload = () => {
+    initRss();
+    checkDbBackup("button");
+}
+
+
+
 let rssDb, rssData;
 
 async function initRss() {

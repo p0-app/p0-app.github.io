@@ -1,3 +1,9 @@
+window.onload = () => {
+    initDataManager();
+}
+
+
+
 let keysDb, keysData;
 
 async function initDataManager() {

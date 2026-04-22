@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' https://esm.sh; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://esm.sh https://cdn.jsdelivr.net; img-src 'self' https://cdn.jsdelivr.net;">
+        <meta http-equiv="Referrer-Policy" content="no-referrer">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
         <title>World Globe | Page Zero</title>
@@ -91,13 +93,6 @@
         <script src="scripts/helpers/genelem.js"></script>
         <script src="scripts/helpers/gensvg.js"></script>
         <script src="scripts/helpers/parsing.js"></script>
-
-        <script type="module">
-            import { initGlobe } from "./scripts/worldglobe.js";
-            window.addEventListener("load", () => {
-                initGlobe();
-                checkDbBackup("button");
-            });
-        </script>
+        <script type="module" src="scripts/worldglobe.js"></script>
     </body>
 </html>
