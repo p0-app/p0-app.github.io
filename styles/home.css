@@ -87,6 +87,10 @@
     animation: 30s greeting-bg-move linear infinite;
 }
 
+#international-day {
+    max-width: 40vw;
+}
+
 #international-day, #international-day > a {
     color: #b4b4b4;
     font-size: 18px;

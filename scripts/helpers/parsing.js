@@ -121,3 +121,21 @@ function deleteObjProperty(obj, path) {
         }
     }
 }
+
+async function fetchJSON(url, options = {}, includeHeaders = false, encodeURI = false) {
+    try {
+        let awsKeys = IS_LOCAL ? null : await loadKeys("aws");
+        let resp = await fetch(IS_LOCAL ? url : `${awsKeys[0]}/proxy?url=${encodeURIComponent(url)}${includeHeaders ? "&ih=1" : ""}${encodeURI ? "&eu=1" : ""}`, IS_LOCAL ? options : { ...options, headers: { ...(options?.headers || {}), 'x-api-key': awsKeys[1] } });
+        if (!resp.ok) return null;
+        let json = await resp.json();
+
+        if (IS_LOCAL) {
+            return !includeHeaders ? json : { json, headers: Object.fromEntries(resp.headers) };
+        } else {
+            if (!json?.body) return null;
+            return !includeHeaders ? JSON.parse(json.body) : { json: JSON.parse(json.body), headers: json.headers };
+        }
+    } catch {
+        return null;
+    }
+}

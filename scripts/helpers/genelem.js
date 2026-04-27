@@ -570,11 +570,12 @@ function initSearchBar(allProfiles, webchestDb) {
             if (suggestionList.length > 0) generateSuggestionList(suggestionList, searchSuggestions);
 
             completionTimeout = setTimeout(async () => {
+                if (!IS_LOCAL && searchInput.value.length < 3) return;
                 try {
                     completionController = new AbortController();
                     let suggestionsData;
                     try {
-                        let suggestionsResp = await fetch(`https://clients1.google.com/complete/search?client=safari&q=${encodeURIComponent(searchInput.value).replaceAll("%20", "+")}`, {
+                        suggestionsData = await fetchJSON(`https://clients1.google.com/complete/search?client=safari&q=${searchInput.value.replaceAll(" ", "+")}`, {
                             headers: {
                                 "Accept": "*/*",
                                 "Accept-Language": "en-CA,en-US;q=0.9,en;q=0.8",
@@ -582,9 +583,7 @@ function initSearchBar(allProfiles, webchestDb) {
                                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15"
                             },
                             signal: completionController.signal
-                        });
-                        if (!suggestionsResp.ok) return;
-                        suggestionsData = await suggestionsResp.json();
+                        }, false, true);
                     } catch (err) {
                         suggestionsData = null;
                     }
@@ -599,7 +598,7 @@ function initSearchBar(allProfiles, webchestDb) {
                 } catch (err) {
                     console.log(err);
                 }
-            }, 100);
+            }, IS_LOCAL ? 100 : 1200);
         } else {
             hasText = false;
             document.getElementById("search-bar-input-enter")?.remove();
@@ -660,76 +659,102 @@ function generateSiteDetail(source, text, type, webchestDb, profileData) {
     siteDetailText.textContent = text;
 
     switch (type) {
+        case "add":
+            siteDetailContainer.appendChild(siteDetailImg);
+            siteDetailContainer.appendChild(siteDetailText);
+            return [siteDetailContainer, siteDetailImg];
+
         case "temporary":
             siteDetailContainer.classList.add("webchest-site-details-addtemp");
             siteDetailText.classList.add("webchest-site-details-text-addtemp");
-            break;
+            siteDetailContainer.appendChild(siteDetailImg);
+            siteDetailContainer.appendChild(siteDetailText);
+            return [siteDetailContainer, siteDetailImg];
 
-        case "site":
+        case "site-sync":
             siteDetailContainer.classList.add("dimensional-button");
+            siteDetailContainer.title = source;
             generateActualSite(siteDetailContainer, siteDetailImg, true, webchestDb, profileData);
-            break;
+            siteDetailContainer.appendChild(siteDetailImg);
+            siteDetailContainer.appendChild(siteDetailText);
+            return [siteDetailContainer, siteDetailImg];
+
+        case "site-async":
+            return new Promise(async resolve => {
+                siteDetailContainer.classList.add("dimensional-button");
+                siteDetailContainer.title = source;
+                await generateActualSite(siteDetailContainer, siteDetailImg, true, webchestDb, profileData);
+                siteDetailContainer.appendChild(siteDetailImg);
+                siteDetailContainer.appendChild(siteDetailText);
+                resolve([siteDetailContainer, siteDetailImg]);
+            });
     }
-
-    siteDetailContainer.appendChild(siteDetailImg);
-    siteDetailContainer.appendChild(siteDetailText);
-
-    return [siteDetailContainer, siteDetailImg];
 }
 
 function generateActualSite(siteDetailContainer, siteDetailImg, requireImgLoad, webchestDb, profileData) {
     siteDetailContainer.classList.add("webchest-site-details-bg");
 
-    const applyDominantColor = () => {
-        let imgColor = extractDominantColor(siteDetailImg, [19, 31, 36]);
-        if (imgColor) {
-            siteDetailContainer.style.setProperty("--site-bg-color", imgColor[0].join(", "));
-        }
-    };
+    return new Promise(resolve => {
+        siteDetailContainer.addEventListener("click", async () => {
+            let url = siteDetailImg.dataset.url;
+            if (!url) return;
 
-    if (requireImgLoad) {
-        siteDetailImg.onload = () => applyDominantColor();
-    } else {
-        applyDominantColor();
-    }
+            if (!profileData) {
+                window.location.href = sanitizeURL(url);
+                return;
+            }
 
-    /*
-    siteDetailContainer.addEventListener("click", async () => {
-        let url = siteDetailImg.dataset.url;
-        if (!url) return;
-
-        window.open(url, "_blank");
-
-        let profileCard = siteDetailContainer.parentElement?.parentElement;
-        if (!profileCard || !profileCard.classList.contains("webchest-profile-card")) profileCard = null;
-        if (profileCard && !profileData) profileData = JSON.parse(profileCard.dataset.profile);
-        if (!profileData) return;
-
-        let siteIndex = profileData.sites.findIndex(site => site.url == url);
-        if (siteIndex == -1) return;
-
-        let now = new Date();
-        let hourKey = now.getHours().toString(), dayOfWeek = now.getDay();
-
-        let visitType = (dayOfWeek == 0 || dayOfWeek == 6) ? "weekends" : "weekdays";
-        profileData.sites[siteIndex].visits[visitType][hourKey] = (profileData.sites[siteIndex].visits[visitType][hourKey] || 0) + 1;
-
-        if (profileCard) profileCard.dataset.profile = JSON.stringify(profileData);
-        await saveDatabase(webchestDb, "webchest_os", [profileData], false);
-    });
-    */
-
-    siteDetailContainer.addEventListener("click", async () => {
-        let url = siteDetailImg.dataset.url;
-        if (!url) return;
-
-        if (!profileData) {
+            await updateSiteVisits(url, profileData, webchestDb);
             window.location.href = sanitizeURL(url);
-            return;
+        });
+
+        const applyDominantColor = () => {
+            let imgColor = extractDominantColor(siteDetailImg, [19, 31, 36]);
+            let siteIndex = profileData.sites.findIndex(site => site.url == siteDetailImg.dataset.url);
+            if (imgColor) {
+                siteDetailContainer.style.setProperty("--site-bg-color", imgColor[0].join(", "));
+
+                if (siteIndex != -1 && profileData.sites[siteIndex].bgColor != imgColor[0].join(", ")) {
+                    profileData.sites[siteIndex].bgColor = imgColor[0].join(", ");
+                    profileData.sites[siteIndex].bgColorUpdated = true;
+                }
+            } else if (profileData.sites[siteIndex].bgColor) {
+                siteDetailContainer.style.setProperty("--site-bg-color", profileData.sites[siteIndex].bgColor);
+            }
+            resolve();
+        };
+
+        if (requireImgLoad) {
+            siteDetailImg.onload = () => applyDominantColor();
+        } else {
+            applyDominantColor();
         }
 
-        await updateSiteVisits(url, profileData, webchestDb);
-        window.location.href = sanitizeURL(url);
+        /*
+        siteDetailContainer.addEventListener("click", async () => {
+            let url = siteDetailImg.dataset.url;
+            if (!url) return;
+    
+            window.open(url, "_blank");
+    
+            let profileCard = siteDetailContainer.parentElement?.parentElement;
+            if (!profileCard || !profileCard.classList.contains("webchest-profile-card")) profileCard = null;
+            if (profileCard && !profileData) profileData = JSON.parse(profileCard.dataset.profile);
+            if (!profileData) return;
+    
+            let siteIndex = profileData.sites.findIndex(site => site.url == url);
+            if (siteIndex == -1) return;
+    
+            let now = new Date();
+            let hourKey = now.getHours().toString(), dayOfWeek = now.getDay();
+    
+            let visitType = (dayOfWeek == 0 || dayOfWeek == 6) ? "weekends" : "weekdays";
+            profileData.sites[siteIndex].visits[visitType][hourKey] = (profileData.sites[siteIndex].visits[visitType][hourKey] || 0) + 1;
+    
+            if (profileCard) profileCard.dataset.profile = JSON.stringify(profileData);
+            await saveDatabase(webchestDb, "webchest_os", [profileData], false);
+        });
+        */
     });
 }
 
@@ -743,6 +768,17 @@ async function updateSiteVisits(url, profileData, webchestDb) {
 
     profileData.sites[siteIndex].visits[visitType][hourKey] = (profileData.sites[siteIndex].visits[visitType]?.[hourKey] || 0) + 1;
     await saveDatabase(webchestDb, "webchest_os", [profileData], false);
+}
+
+async function updateSiteColors(profiles, webchestDb) {
+    let profilesToUpdate = [];
+    for (let profileData of profiles) {
+        let bgColorUpdated = profileData.sites.filter(x => x.bgColorUpdated);
+        if (bgColorUpdated.length == 0) continue;
+        bgColorUpdated.forEach(x => delete x.bgColorUpdated);
+        profilesToUpdate.push(profileData);
+    }
+    if (profilesToUpdate.length > 0) await saveDatabase(webchestDb, "webchest_os", profilesToUpdate, false);
 }
 
 function createSuggestionGroup(data, isWebchest) {
@@ -908,7 +944,7 @@ function loadTimelySuggestions(parent, isWebchest, titleText, suggestionsData) {
                     suggestionContent.style.columnGap = "20px";
 
                     suggestedSites.forEach(site => {
-                        let siteDetail = generateSiteDetail(site.url, site.displayText, "site", data.db, site.parentProfile)[0];
+                        let siteDetail = generateSiteDetail(site.url, site.displayText, "site-sync", data.db, site.parentProfile)[0];
                         siteDetail.classList.add("timely-site-suggestion");
                         suggestionContent.appendChild(siteDetail);
                     });

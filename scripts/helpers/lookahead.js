@@ -14,12 +14,11 @@ async function getCanvasCalendar(keysData) {
 
     let allPlannerData = [];
     while (url) {
-        let plannerResp = await fetch(url, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}` } });
-        let plannerData = await plannerResp.json();
-        if (!plannerData?.length) break;
-        allPlannerData = allPlannerData.concat(plannerData);
+        let plannerData = await fetchJSON(url, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}` } }, true);
+        if (!plannerData?.json?.length) break;
+        allPlannerData = allPlannerData.concat(plannerData.json);
 
-        let linkHeader = plannerResp.headers.get("Link");
+        let linkHeader = plannerData.headers["Link"];
         url = null;
         if (linkHeader) {
             let matches = linkHeader.match(/<([^>]+)>;\s*rel="next"/);
@@ -79,7 +78,7 @@ function generateLookaheadStatic(imageParams, text, borderColor, appendDest) {
 }
 
 function generateCalendarList(events, now, separateDates, listType, lookaheadDb, lookaheadData, appendDest) {
-    let eventsFiltered = !lookaheadData?.settings?.hiddenEvents?.show && lookaheadData?.settings?.hiddenEvents?.ids?.size > 0 ? events.filter(x => !lookaheadData.settings.hiddenEvents.ids.has(x.id)) : events;
+    let eventsFiltered = !lookaheadData?.settings?.hiddenEvents?.show && lookaheadData?.settings?.hiddenEvents?.ids?.length > 0 ? events.filter(x => !lookaheadData.settings.hiddenEvents.ids.includes(x.id)) : events;
 
     let content = appendDest.querySelector(".lookahead-container");
     let borderColor;
@@ -186,13 +185,13 @@ function generateCalendarList(events, now, separateDates, listType, lookaheadDb,
 
             let cardHide = document.createElement("p");
             cardHide.classList.add("lookahead-list-hide", "centered-div");
-            if (lookaheadData.settings.hiddenEvents.ids.has(x.id)) cardHide.classList.add("lookahead-list-hidden");
+            if (lookaheadData.settings.hiddenEvents.ids.includes(x.id)) cardHide.classList.add("lookahead-list-hidden");
             cardHide.textContent = "X";
             cardHide.addEventListener("click", async () => {
-                if (!lookaheadData.settings.hiddenEvents.ids.has(x.id)) {
-                    lookaheadData.settings.hiddenEvents.ids.add(x.id);
+                if (!lookaheadData.settings.hiddenEvents.ids.includes(x.id)) {
+                    lookaheadData.settings.hiddenEvents.ids.push(x.id);
                 } else {
-                    lookaheadData.settings.hiddenEvents.ids.delete(x.id);
+                    lookaheadData.settings.hiddenEvents.ids.splice(lookaheadData.settings.hiddenEvents.ids.indexOf(x.id), 1);
                 }
                 cardHide.classList.toggle("lookahead-list-hidden");
 
@@ -304,11 +303,11 @@ async function updateLookahead(lookaheadDb, lookaheadData, keysData) {
         } else {
             let fetchedIds = new Set(canvasData.map(x => x.id));
             let gradedIds = new Set(canvasData.filter(x => x.graded).map(x => x.id));
-            lookaheadData.seenAssignments = lookaheadData.seenAssignments.filter(x => fetchedIds.has(x));
-            lookaheadData.newAssignments = lookaheadData.newAssignments.filter(x => fetchedIds.has(x.id));
-            lookaheadData.seenGraded = lookaheadData.seenGraded.filter(x => fetchedIds.has(x) && gradedIds.has(x));
-            lookaheadData.newGraded = lookaheadData.newGraded.filter(x => fetchedIds.has(x.id) && gradedIds.has(x.id));
-            lookaheadData.settings.hiddenEvents.ids.forEach(id => { if (!fetchedIds.has(id)) { lookaheadData.settings.hiddenEvents.ids.delete(id); toSave = true; } });
+            lookaheadData.seenAssignments = lookaheadData.seenAssignments?.filter(x => fetchedIds.has(x)) ?? [];
+            lookaheadData.newAssignments = lookaheadData.newAssignments?.filter(x => fetchedIds.has(x.id)) ?? [];
+            lookaheadData.seenGraded = lookaheadData.seenGraded?.filter(x => fetchedIds.has(x) && gradedIds.has(x)) ?? [];
+            lookaheadData.newGraded = lookaheadData.newGraded?.filter(x => fetchedIds.has(x.id) && gradedIds.has(x.id)) ?? [];
+            if (lookaheadData.settings.hiddenEvents.ids) lookaheadData.settings.hiddenEvents.ids.forEach(id => { if (!fetchedIds.has(id)) { lookaheadData.settings.hiddenEvents.ids.splice(lookaheadData.settings.hiddenEvents.ids.indexOf(id), 1); toSave = true; } });
 
             const createAssignmentNotification = (newItems, newKey, seenKey, btnText) => {
                 lookaheadData[newKey].push(...newItems);

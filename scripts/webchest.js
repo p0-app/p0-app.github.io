@@ -18,8 +18,12 @@ async function initWebchest() {
 
     if (allProfiles?.length > 0) {
         allProfiles.sort((a, b) => a.order - b.order);
-        allProfiles.forEach(profileData => generateProfileCard(profileData));
+        for (let profileData of allProfiles) {
+            await generateProfileCard(profileData);
+        }
 
+        console.log(allProfiles);
+        updateSiteColors(allProfiles, webchestDb);
         // updateProfileOrder();
         // await saveDatabase(webchestDb, "webchest_os", allProfiles, false);
     }
@@ -90,7 +94,7 @@ function createProfile() {
     nameInput.focus();
 }
 
-function generateProfileCard(profileData) {
+async function generateProfileCard(profileData) {
     let profileContainer = document.createElement("div");
     profileContainer.classList.add("webchest-profile-container", "flex-split-row");
     profileContainer.dataset.profile = profileData.profile;
@@ -129,10 +133,10 @@ function generateProfileCard(profileData) {
         let siteContainer = document.createElement("div");
         siteContainer.classList.add("webchest-site-container");
 
-        profileData.sites.forEach(site => {
-            let siteDetail = generateSiteDetail(site.url, site.displayText, "site", webchestDb, profileData)[0];
+        for (let site of profileData.sites) {
+            let siteDetail = (await generateSiteDetail(site.url, site.displayText, "site-async", webchestDb, profileData))[0];
             siteContainer.appendChild(siteDetail);
-        });
+        }
 
         profileCard.appendChild(siteContainer);
     } else {
@@ -239,15 +243,15 @@ function enterProfileEdit(profileCard, profileName) {
 
     let confirmButton = createImgButton(["webchest-profile-edit-button"], "img", "assets/images/checkmark.svg", "0, 187, 0", { text: "Save changes", position: "bottom" });
     confirmButton.addEventListener("click", async () => {
+        let profileData = allProfiles.find(x => x.profile == profileName);
+        
         siteContainer.querySelectorAll(".webchest-site-details-addtemp").forEach(x => {
             x.classList.remove("webchest-site-details-addtemp");
-            generateActualSite(x, x.querySelector("img"), false);
+            generateActualSite(x, x.querySelector("img"), false, webchestDb, profileData);
         });
         siteContainer.querySelectorAll(".webchest-site-details-text-addtemp").forEach(x => x.classList.remove("webchest-site-details-text-addtemp"));
-
         siteContainer.querySelectorAll(".webchest-site-details-remtemp").forEach(x => x.remove());
 
-        let profileData = allProfiles.find(x => x.profile == profileName);
         profileData.sites = profileData.sites.filter(site => !site.toDelete);
 
         let mainCardContainer = document.getElementById("webchest-card-container");
@@ -338,8 +342,8 @@ async function exitProfileEdit(profileCard, profileName, buttonsDiv, type) {
             if (originalProfile) {
                 profileCard.style.setProperty("--card-bg", originalProfile.color == "" ? "transparent" : originalProfile.color);
                 siteContainer.innerHTML = "";
-                originalProfile.sites.forEach(site => {
-                    siteContainer.appendChild(generateSiteDetail(site.url, site.displayText, "site", webchestDb, originalProfile)[0]);
+                originalProfile.sites.forEach(async site => {
+                    siteContainer.appendChild(generateSiteDetail(site.url, site.displayText, "site-sync", webchestDb, originalProfile)[0]);
                 });
 
                 let mainCardContainer = document.getElementById("webchest-card-container");
@@ -394,14 +398,15 @@ function createHeaderCollapse(profileName, profileCard, moreSvg, profileEditHand
             let siteContainer = document.createElement("div");
             siteContainer.classList.add("webchest-site-container");
 
-            profileData.sites.forEach(site => {
-                let siteDetail = generateSiteDetail(site.url, site.displayText, "site", webchestDb, profileData)[0];
+            for (let site of profileData.sites) {
+                let siteDetail = (await generateSiteDetail(site.url, site.displayText, "site-async", webchestDb, profileData))[0];
                 siteContainer.appendChild(siteDetail);
-            });
+            }
 
             profileCard.appendChild(siteContainer);
             moreSvg.addEventListener("click", profileEditHandler, { once: true });
             toggleButtonActive(moreSvg, true);
+            updateSiteColors([profileData], webchestDb);
         }
     });
 

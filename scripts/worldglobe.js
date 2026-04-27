@@ -86,7 +86,7 @@ export async function initGlobe() {
 
     let dtObj = new Date();
 
-    let dayTextureType = navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome") ? "tif" : "jpg";
+    let dayTextureType = navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome") ? "tif" : "webp";
     const [dayTexture, nightTexture] = await Promise.all([
         new TextureLoader().loadAsync(`https://cdn.jsdelivr.net/gh/WOZARDLOZARD/world-data@refs/heads/main/blue-marble/${dayTextureType}/world.topo.bathy.2004${(dtObj.getMonth() + 1).toString().padStart(2, "0")}.3x5400x2700_geo.${dayTextureType}`),
         new TextureLoader().loadAsync("https://cdn.jsdelivr.net/gh/WOZARDLOZARD/world-data@refs/heads/main/blue-marble/8k_earth_nightmap.jpg")
