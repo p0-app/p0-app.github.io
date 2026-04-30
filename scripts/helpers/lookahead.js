@@ -1,20 +1,20 @@
-async function getCanvasCalendar(keysData) {
+async function getCanvasCalendar(canvasKey) {
     let now = new Date(), year = now.getFullYear();
     let checkpoints = [new Date(year, 0, 1), new Date(year, 4, 1), new Date(year, 8, 1)];
     let closestDate = checkpoints.filter(d => d <= now).sort((a, b) => b - a)[0];
-    let url = `${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}/api/v1/planner/items?order=asc&per_page=100&start_date=${closestDate.toISOString().slice(0, 10)}`;
+    let url = `${IS_LOCAL ? API_KEYS.canvas[0] : canvasKey[0]}/api/v1/planner/items?order=asc&per_page=100&start_date=${closestDate.toISOString().slice(0, 10)}`;
 
     /*
-    let courseResp = await fetch(`${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}/api/v1/courses`, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}` } });
+    let courseResp = await fetch(`${IS_LOCAL ? API_KEYS.canvas[0] : canvasKey[0]}/api/v1/courses`, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : canvasKey[1]}` } });
     let courseData = await courseResp.json();
     if (!courseData?.length) return null;
 
-    let calendarResp = await fetch(`${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}/api/v1/calendar_events?type=assignment&${courseData.map(x => `context_codes%5B%5D=course_${x.id}`).join("&")}`, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}` } });
+    let calendarResp = await fetch(`${IS_LOCAL ? API_KEYS.canvas[0] : canvasKey[0]}/api/v1/calendar_events?type=assignment&${courseData.map(x => `context_codes%5B%5D=course_${x.id}`).join("&")}`, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : canvasKey[1]}` } });
     */
 
     let allPlannerData = [];
     while (url) {
-        let plannerData = await fetchJSON(url, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : keysData.canvas[1]}` } }, true);
+        let plannerData = await fetchJSON(url, { headers: { "Authorization": `Bearer ${IS_LOCAL ? API_KEYS.canvas[1] : canvasKey[1]}` } }, true);
         if (!plannerData?.json?.length) break;
         allPlannerData = allPlannerData.concat(plannerData.json);
 
@@ -33,8 +33,8 @@ async function getCanvasCalendar(keysData) {
             id: x.plannable.id,
             dueDate: new Date(x.plannable.due_at || x.plannable_date),
             title: x.plannable.title,
-            course: [x.context_name, `${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}/courses/${x.course_id}`],
-            url: `${IS_LOCAL ? API_KEYS.canvas[0] : keysData.canvas[0]}${x.html_url}`,
+            course: [x.context_name, `${IS_LOCAL ? API_KEYS.canvas[0] : canvasKey[0]}/courses/${x.course_id}`],
+            url: `${IS_LOCAL ? API_KEYS.canvas[0] : canvasKey[0]}${x.html_url}`,
             submitted: x.submissions?.submitted ?? false,
             graded: x.submissions?.graded ?? false,
         }
@@ -278,11 +278,11 @@ function generateLookaheadCards(canvasData, lookaheadDb, lookaheadData, listId) 
     }
 }
 
-async function updateLookahead(lookaheadDb, lookaheadData, keysData) {
+async function updateLookahead(lookaheadDb, lookaheadData, canvasKey) {
     let canvasData;
 
     try {
-        canvasData = await getCanvasCalendar(keysData);
+        canvasData = await getCanvasCalendar(canvasKey);
     } catch {
         canvasData = null;
     }
@@ -297,7 +297,7 @@ async function updateLookahead(lookaheadDb, lookaheadData, keysData) {
                 key: "main",
                 seenAssignments: canvasData.map(x => x.id), newAssignments: [],
                 seenGraded: [], newGraded: [],
-                settings: { showSubmitted: "Before due", hiddenEvents: { show: false, ids: new Set() } }
+                settings: { showSubmitted: "Before due", hiddenEvents: { show: false, ids: [] } }
             };
             toSave = true;
         } else {

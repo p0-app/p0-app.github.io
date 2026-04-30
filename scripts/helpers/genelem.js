@@ -648,7 +648,7 @@ function generateSiteDetail(source, text, type, webchestDb, profileData) {
 
     let siteDetailImg = document.createElement("img");
     if (source.startsWith("http")) {
-        siteDetailImg.src = `https://s2.googleusercontent.com/s2/favicons?domain=${encodeURI(source)}&sz=256`;
+        siteDetailImg.src = `https://s2.googleusercontent.com/s2/favicons?domain=${encodeURI(source)}&sz=64`;
         siteDetailImg.dataset.url = source;
     } else {
         siteDetailImg.src = source;
@@ -659,25 +659,16 @@ function generateSiteDetail(source, text, type, webchestDb, profileData) {
     siteDetailText.textContent = text;
 
     switch (type) {
-        case "add":
-            siteDetailContainer.appendChild(siteDetailImg);
-            siteDetailContainer.appendChild(siteDetailText);
-            return [siteDetailContainer, siteDetailImg];
-
         case "temporary":
             siteDetailContainer.classList.add("webchest-site-details-addtemp");
             siteDetailText.classList.add("webchest-site-details-text-addtemp");
-            siteDetailContainer.appendChild(siteDetailImg);
-            siteDetailContainer.appendChild(siteDetailText);
-            return [siteDetailContainer, siteDetailImg];
+            break;
 
         case "site-sync":
             siteDetailContainer.classList.add("dimensional-button");
             siteDetailContainer.title = source;
             generateActualSite(siteDetailContainer, siteDetailImg, true, webchestDb, profileData);
-            siteDetailContainer.appendChild(siteDetailImg);
-            siteDetailContainer.appendChild(siteDetailText);
-            return [siteDetailContainer, siteDetailImg];
+            break;
 
         case "site-async":
             return new Promise(async resolve => {
@@ -689,6 +680,10 @@ function generateSiteDetail(source, text, type, webchestDb, profileData) {
                 resolve([siteDetailContainer, siteDetailImg]);
             });
     }
+
+    siteDetailContainer.appendChild(siteDetailImg);
+    siteDetailContainer.appendChild(siteDetailText);
+    return [siteDetailContainer, siteDetailImg];
 }
 
 function generateActualSite(siteDetailContainer, siteDetailImg, requireImgLoad, webchestDb, profileData) {
@@ -714,7 +709,7 @@ function generateActualSite(siteDetailContainer, siteDetailImg, requireImgLoad, 
             if (imgColor) {
                 siteDetailContainer.style.setProperty("--site-bg-color", imgColor[0].join(", "));
 
-                if (siteIndex != -1 && profileData.sites[siteIndex].bgColor != imgColor[0].join(", ")) {
+                if (siteIndex != -1 && (!profileData.sites[siteIndex].bgColor || Math.abs(profileData.sites[siteIndex].bgColor.split(", ").map(Number).reduce((a, b) => a + b, 0) - imgColor[0].reduce((a, b) => a + b, 0)) >= 35)) {
                     profileData.sites[siteIndex].bgColor = imgColor[0].join(", ");
                     profileData.sites[siteIndex].bgColorUpdated = true;
                 }
@@ -724,7 +719,7 @@ function generateActualSite(siteDetailContainer, siteDetailImg, requireImgLoad, 
             resolve();
         };
 
-        if (requireImgLoad) {
+        if (IS_LOCAL && requireImgLoad) {
             siteDetailImg.onload = () => applyDominantColor();
         } else {
             applyDominantColor();
@@ -813,7 +808,7 @@ function createNotificationBtn(imgType, imgSrc, notifText, notifUrl) {
     return [notificationButton, notificationDismiss];
 }
 
-function createAssignmentBtn(btnText, assignment, lookaheadData, newKey, seenKey, db, suggestionGroup, suggestionContent) {
+function createAssignmentBtn(btnText, assignment, lookaheadData, newKey, seenKey, lookaheadDb, suggestionGroup, suggestionContent) {
     let [assignmentButton, assignmentDismiss] = createNotificationBtn("img", "assets/images/assignment.svg", btnText + assignment.title, assignment.url);
     assignmentDismiss.addEventListener("click", async event => {
         event.preventDefault();
@@ -821,7 +816,7 @@ function createAssignmentBtn(btnText, assignment, lookaheadData, newKey, seenKey
 
         lookaheadData[seenKey].push(assignment.id);
         lookaheadData[newKey] = lookaheadData[newKey].filter(y => y.id != assignment.id);
-        await saveDatabase(db, "lookahead_os", [lookaheadData], true);
+        await saveDatabase(lookaheadDb, "lookahead_os", [lookaheadData], true);
 
         assignmentButton.remove();
         if (!suggestionContent.children.length) suggestionGroup.remove();
@@ -895,12 +890,12 @@ function loadTimelySuggestions(parent, isWebchest, titleText, suggestionsData) {
                     }
                 }
 
-                if (data.content[1].newAssignments?.length > 0) {
+                if (data.content[1]?.newAssignments?.length > 0) {
                     data.content[1].newAssignments.forEach(x => {
                         [suggestionGroup, suggestionContent] = createAssignmentBtn("Assignment posted: ", x, data.content[1], "newAssignments", "seenAssignments", data.db[1], suggestionGroup, suggestionContent);
                     });
                 }
-                if (data.content[1].newGraded?.length > 0) {
+                if (data.content[1]?.newGraded?.length > 0) {
                     data.content[1].newGraded.forEach(x => {
                         [suggestionGroup, suggestionContent] = createAssignmentBtn("Assignment graded: ", x, data.content[1], "newGraded", "seenGraded", data.db[1], suggestionGroup, suggestionContent);
                     });

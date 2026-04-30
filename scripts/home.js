@@ -64,7 +64,7 @@ async function loadHomeFeatures(now) {
         initHome(webchestDb, allProfiles, todoDb, todoData, lookaheadDb, lookaheadData, timerData);
         estimateLocation(todoData, dateStr, now.getTime());
         initWidgets(keysData);
-        updateLookahead(lookaheadDb, lookaheadData, keysData);
+        updateLookahead(lookaheadDb, lookaheadData, keysData?.canvas);
         updateCanvasToken();
     } else {
         let connectPrompt = confirm("Not connected to database. Would you like to connect?\nNote: Most functionality will be unavailable until database is connected.");

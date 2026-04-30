@@ -1,6 +1,5 @@
 const IS_LOCAL = window.location.href.startsWith("file://");
-let firebaseKeys;
-let firebaseInfo = [
+const FIREBASE_INFO = [
     { os: "lookahead_os", key: "main" },
     { os: "calculator_os", key: "main" },
     { os: "gradebook_os", key: "main" },
@@ -11,6 +10,8 @@ let firebaseInfo = [
     { os: "webchest_os", key: "profile" },
     { os: "widget_os", key: "main" },
 ];
+let firebaseKeys;
+
 
 
 function openDatabase(dbInfo, schemaInfo, indexInfo, forceLocal = false) {
@@ -72,7 +73,7 @@ async function readDatabase(db, osName, keyPath, forceLocal = false) {
             }
         });
     } else {
-        let firebaseFound = firebaseInfo.find(x => x.os == osName);
+        let firebaseFound = FIREBASE_INFO.find(x => x.os == osName);
         if (!firebaseFound) return;
 
         if (!firebaseKeys) firebaseKeys = await loadKeys("firebase");
@@ -107,7 +108,7 @@ async function saveDatabase(db, osName, newObjs, showSuccess, forceLocal = false
             });
 
             transaction.oncomplete = () => {
-                if (!["widget_os", "lookahead_os"].includes(osName)) {
+                if (!["widget_os"].includes(osName)) {
                     let localSaves = localStorage.getItem("localSaves");
                     let localSaveSplit = localSaves ? localSaves.split(",") : [null];
                     localSaveSplit[0] = Date.now().toString();
@@ -124,7 +125,7 @@ async function saveDatabase(db, osName, newObjs, showSuccess, forceLocal = false
             }
         });
     } else {
-        let firebaseFound = firebaseInfo.find(x => x.os == osName);
+        let firebaseFound = FIREBASE_INFO.find(x => x.os == osName);
         if (!firebaseFound) return;
 
         if (!firebaseKeys) firebaseKeys = await loadKeys("firebase");
@@ -152,7 +153,7 @@ async function saveDatabase(db, osName, newObjs, showSuccess, forceLocal = false
 
             switch (firebaseResp.status) {
                 case 200:
-                    if (!["widget_os", "lookahead_os"].includes(osName)) {
+                    if (!["widget_os"].includes(osName)) {
                         firebaseResp = await fetch(`${firebaseKeys[0]}/metadata.json?access_token=${googleToken}`, {
                             method: "PATCH",
                             headers: { "Content-Type": "application/json" },

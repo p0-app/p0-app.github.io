@@ -18,14 +18,16 @@ async function initWebchest() {
 
     if (allProfiles?.length > 0) {
         allProfiles.sort((a, b) => a.order - b.order);
-        for (let profileData of allProfiles) {
-            await generateProfileCard(profileData);
-        }
 
-        console.log(allProfiles);
-        updateSiteColors(allProfiles, webchestDb);
-        // updateProfileOrder();
-        // await saveDatabase(webchestDb, "webchest_os", allProfiles, false);
+        (async() => {
+            for (let profileData of allProfiles) {
+                await generateProfileCard(profileData);
+            }
+            updateSiteColors(allProfiles, webchestDb);
+            
+            // updateProfileOrder();
+            // await saveDatabase(webchestDb, "webchest_os", allProfiles, false);
+        })();
     }
 
     loadTimelySuggestions(document.getElementById("webchest-timely-suggestions"), true, "Site Suggestions", [{ type: "sites", content: allProfiles, db: webchestDb }]);
@@ -475,7 +477,7 @@ function openSiteAddOverlay(profileData, siteContainer) {
         try {
             new URL(urlValue);
             faviconImg.style.visibility = "visible";
-            faviconImg.src = `https://s2.googleusercontent.com/s2/favicons?domain=${encodeURI(urlValue)}&sz=256`;
+            faviconImg.src = `https://s2.googleusercontent.com/s2/favicons?domain=${encodeURI(urlValue)}&sz=64`;
         } catch {
             faviconImg.style.visibility = "hidden";
         }

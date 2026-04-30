@@ -1,4 +1,6 @@
 function extractDominantColor(imgElement, rejectSimilarity) {
+    if (!IS_LOCAL) return null;
+
     let canvas = document.createElement('canvas');
     let context = canvas.getContext('2d');
 
